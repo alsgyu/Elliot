@@ -1,0 +1,16 @@
+data/*.sqlite3
+data/*.sqlite3-*
+logs/
+__pycache__/
+.pytest_cache/
+.venv/
+*.pyc
+data/*.lock
+artifacts/
+.DS_Store
+build/
+*.egg-info/
+data/matplotlib/
+data/cache/
+data/elliott/
+data/elliott-*/

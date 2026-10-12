@@ -1,0 +1,31 @@
+[project]
+name = "kgridbot"
+version = "0.3.0"
+description = "Local Elliott-wave BTC futures engine with causal signals, audit journals and guarded execution"
+requires-python = ">=3.11"
+dependencies = ["certifi==2026.7.22"]
+
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project.optional-dependencies]
+analytics = ["quantstats==0.0.86", "pandas==2.3.3", "numpy==2.2.6"]
+
+[project.scripts]
+kgridbot = "kgridbot.app:main"
+elliott-btc = "elliottbot.web:main"
+
+[tool.setuptools.packages.find]
+include = ["kgridbot*", "elliottbot*"]
+
+[tool.setuptools.package-data]
+kgridbot = ["static/*", "static/vendor/*"]
+elliottbot = ["static/*"]
+
+[tool.setuptools.data-files]
+"share/elliott-btc" = ["docs/ELLIOTT_RULES.md"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light"><title>KGridBot | BTC 그리드</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script defer src="/static/vendor/lucide.min.js"></script>
+  <script defer src="/static/app.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <a class="brand" href="/" aria-label="KGridBot 홈"><i data-lucide="chart-no-axes-combined"></i>KGridBot<span class="version">LOCAL</span></a>
+    <div class="header-meta"><span class="badge" id="mode">모의거래</span><span id="connection" class="connection">연결 중</span><button id="refresh" class="icon-button" title="새로고침" aria-label="새로고침"><i data-lucide="refresh-cw"></i></button></div>
+  </header>
+  <main>
+    <section class="market-bar">
+      <div class="instrument"><span class="btc-symbol" aria-hidden="true">₿</span><div><h1 id="symbol">BTC / USDT</h1><span class="muted">무기한 선물 · 롱 · 격리 · One-way</span></div></div>
+      <div class="market-price"><strong id="price">—</strong><span id="source">시세 수신 대기</span></div>
+      <div class="status-group"><span class="status-dot" id="status-dot"></span><strong id="halt">대기</strong><span id="updated" class="muted"></span></div>
+    </section>
+    <nav class="tabs" aria-label="작업 화면">
+      <button class="tab active" data-view="dashboard" aria-selected="true"><i data-lucide="layout-dashboard"></i>운용 현황</button>
+      <button class="tab" data-view="settings" aria-selected="false"><i data-lucide="sliders-horizontal"></i>전략 설정</button>
+      <button class="tab" data-view="research" aria-selected="false"><i data-lucide="flask-conical"></i>시나리오 분석</button>
+    </nav>
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+    <section id="dashboard-view" class="view">
+      <div class="section-heading"><h2>계좌 현황 <span id="quote-unit">USDT</span></h2><div class="controls">
+        <button data-action="pause"><i data-lucide="pause"></i>진입 중단</button>
+        <button data-action="resume" class="primary"><i data-lucide="play"></i><span id="resume-label">매매 시작</span></button>
+        <button data-action="cancel-and-flatten"><i data-lucide="square"></i>포지션 정리</button>
+        <button data-action="emergency-stop" class="danger-subtle" title="모든 진입 중단 및 시장가 정리"><i data-lucide="octagon-alert"></i>비상 정지</button>
+      </div></div>
+      <div class="metrics">
+        <div><span>배정 자산</span><strong id="equity">—</strong><small id="capital">배정 자본 —</small></div>
+        <div><span>전체 순손익</span><strong id="netpnl">—</strong><small id="daily-pnl">오늘 —</small></div>
+        <div><span>포지션 <b id="leverage" class="small-badge">—</b></span><strong id="position">—</strong><small id="entry-price">평균 진입 —</small></div>
+        <div><span>사용 증거금</span><strong id="margin">—</strong><small id="exposure">미체결 포함 노출 —</small></div>
+      </div>
+      <div class="chart-layout">
+        <section class="price-section"><div class="section-heading"><h2>BTC 가격과 그리드</h2><span class="chart-legend"><b></b>가격 <b class="grid-key"></b>그리드</span></div><div class="chart-wrap"><canvas id="price-chart" aria-label="BTC 가격 및 그리드 가격 차트" role="img"></canvas></div><div class="chart-footer"><span id="range">—</span><span id="stop">보호 주문 대기</span></div></section>
+        <section class="risk-section"><h2>손익과 보호 상태</h2><dl class="details"><div><dt>실현 손익</dt><dd id="realized">—</dd></div><div><dt>미실현 손익</dt><dd id="unrealized">—</dd></div><div><dt>거래 수수료</dt><dd id="fees">—</dd></div><div><dt>펀딩 지급·수취</dt><dd id="funding">—</dd></div></dl><div class="risk-meter"><div><span>일일 손실 한도</span><b id="daily-limit">—</b></div><progress id="loss-progress" value="0" max="100"></progress></div><div class="risk-meter"><div><span>누적 손실 한도</span><b id="total-limit">—</b></div><progress id="total-progress" value="0" max="100"></progress></div><div id="risk-state" class="risk-state">한도 확인 중</div></section>
+      </div>
+      <section class="orders-section"><div class="section-heading"><div class="subtabs"><button class="selected" data-table="orders">미체결 주문 <span id="order-count">0</span></button><button data-table="fills">최근 체결</button><button data-table="events">이벤트</button></div><button id="download" class="icon-button" title="체결 기록 CSV 다운로드" aria-label="체결 기록 CSV 다운로드"><i data-lucide="download"></i></button></div>
+        <div class="table-scroll" id="orders-table"><table><thead><tr><th>주문</th><th>방향</th><th>가격</th><th>수량 (BTC)</th><th>체결 수량</th><th>상태</th></tr></thead><tbody id="orders"></tbody></table></div>
+        <div class="table-scroll" id="fills-table" hidden><table><thead><tr><th>시간</th><th>방향</th><th>가격</th><th>수량 (BTC)</th><th>수수료</th><th>실현 손익</th></tr></thead><tbody id="fills"></tbody></table></div>
+        <div id="events-table" hidden><ul id="events" class="events"></ul></div>
+      </section>
+    </section>
+    <section id="settings-view" class="view" hidden>
+      <div class="section-heading"><h2>그리드 전략 설정</h2><span id="settings-state" class="muted">변경 사항 없음</span></div>
+      <div class="settings-layout"><form id="settings-form">
+        <fieldset><legend>가격 구간</legend><div class="field-grid">
+          <label>하한 가격 <span>USDT / USDC</span><input name="lower_price" type="number" min="1" step="0.1" required></label>
+          <label>상한 가격 <span>USDT / USDC</span><input name="upper_price" type="number" min="1" step="0.1" required></label>
+          <label>그리드 수<input name="grid_count" type="number" min="2" max="200" step="1" required></label>
+          <label>간격 방식<select name="grid_spacing"><option value="arithmetic">등간격</option><option value="geometric">등비율</option></select></label>
+        </div></fieldset>
+        <fieldset><legend>자본과 주문</legend><div class="field-grid">
+          <label>배정 자본 <span>담보 통화</span><input name="allocated_margin" type="number" min="1" step="1" required></label>
+          <label>주문당 금액 <span>명목가치</span><input name="order_quote" type="number" min="1" step="1" required></label>
+          <label class="leverage-field">레버리지 <output id="leverage-output">2×</output><input name="leverage" type="range" min="1" max="5" step="1"><span class="range-labels"><span>1×</span><span>2×</span><span>3×</span><span>4×</span><span>5×</span></span></label>
+          <label>동시 진입 주문 수<input name="max_open_orders" type="number" min="1" max="199" step="1" required></label>
+        </div></fieldset>
+        <fieldset><legend>위험 한도</legend><div class="field-grid">
+          <label>손절 가격<input name="stop_loss_price" type="number" min="1" step="0.1" required></label>
+          <label>포지션·진입 주문 총 한도<input name="max_position_notional" type="number" min="1" step="1" required></label>
+          <label>미체결 진입 금액 한도<input name="max_open_order_notional" type="number" min="1" step="1" required></label>
+          <label>일일 손실 한도 <span>서울 기준</span><input name="daily_loss_limit" type="number" min="0.01" step="0.01" required></label>
+          <label>누적 손실 한도<input name="total_loss_limit" type="number" min="0.01" step="0.01" required></label>
+          <label>시세 유효 시간 <span>초</span><input name="stale_price_seconds" type="number" min="1" max="300" step="1" required></label>
+        </div></fieldset>
+        <details class="advanced"><summary>체결 비용 가정</summary><div class="field-grid">
+          <label>스프레드 <span>bps</span><input name="spread_bps" type="number" min="0" step="0.1" required></label>
+          <label>보유기간 예상 펀딩 <span>bps</span><input name="expected_funding_bps" type="number" min="0" step="0.1" required></label>
+          <label>시장가 슬리피지 <span>bps</span><input name="slippage_bps" type="number" min="0" step="0.1" required></label>
+        </div></details>
+        <div class="form-actions"><button type="button" id="revert"><i data-lucide="rotate-ccw"></i>되돌리기</button><button type="button" id="preview"><i data-lucide="scan-eye"></i>설정 검증</button><button type="submit" class="primary"><i data-lucide="save"></i>설정 적용</button></div>
+      </form><aside class="preview-section"><h2>주문 미리보기</h2><dl class="details"><div><dt>유효 명목가치 한도</dt><dd id="preview-cap">—</dd></div><div><dt>최소 그리드 간격</dt><dd id="preview-gap">—</dd></div><div><dt>예상 왕복 비용</dt><dd id="preview-cost">—</dd></div></dl><p id="preview-message" class="context-note">설정 검증 대기</p><div class="table-scroll"><table><thead><tr><th>매수 가격</th><th>주문 수량 (BTC)</th></tr></thead><tbody id="preview-orders"></tbody></table></div></aside></div>
+    </section>
+    <section id="research-view" class="view" hidden>
+      <div class="section-heading"><h2>운용 성과</h2><span id="analytics-library" class="muted">QuantStats</span></div>
+      <div class="metrics analytics-metrics"><div><span>자본 유출입 조정 수익률</span><strong id="return">—</strong></div><div><span>최대 낙폭</span><strong id="drawdown">—</strong></div><div><span>연율화 샤프</span><strong id="sharpe">—</strong></div><div><span>연율화 변동성</span><strong id="volatility">—</strong></div></div>
+      <p id="analytics-note" class="context-note"></p><div class="equity-chart"><canvas id="equity-chart" aria-label="모의 계좌 순자산 차트" role="img"></canvas></div>
+      <section class="scenario-section"><div class="section-heading"><div><h2>스트레스 시나리오</h2><p class="muted">합성 데이터 · 수수료·슬리피지·펀딩 포함 · 현재 적용 설정</p></div><button id="backtest" class="primary"><i data-lucide="play"></i>분석 실행</button></div>
+      <div id="scenario-empty" class="empty-state"><i data-lucide="chart-spline"></i><span>횡보·급락·상승 시나리오 분석 대기</span></div><div class="table-scroll" id="scenario-results" hidden><table><thead><tr><th>시나리오</th><th>순손익</th><th>최대 낙폭</th><th>수수료</th><th>펀딩</th><th>체결 수</th><th>최종 상태</th></tr></thead><tbody id="scenarios"></tbody></table></div><ul id="assumptions" class="assumptions"></ul></section>
+    </section>
+    <footer><span>모의거래 · 합성 가격 · 실제 자금 미사용</span><span id="footer-engine">Local paper engine</span></footer>
+  </main>
+  <dialog id="confirm-dialog"><form method="dialog"><div class="dialog-icon"><i data-lucide="circle-alert"></i></div><h2 id="confirm-title">포지션을 정리할까요?</h2><p id="confirm-text">진입·익절 주문을 취소하고 남은 포지션을 시장가로 정리합니다.</p><div class="dialog-actions"><button value="cancel">취소</button><button value="confirm" class="danger">정리 실행</button></div></form></dialog>
+</body>
+</html>

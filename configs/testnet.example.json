@@ -1,0 +1,38 @@
+{
+  "mode": "testnet",
+  "exchange": "binance_perpetual",
+  "symbol": "BTCUSDT",
+  "database_path": "data/kgridbot-testnet.sqlite3",
+  "host": "127.0.0.1",
+  "port": 8765,
+  "binance_base_url": "https://testnet.binancefuture.com",
+  "api_key_env": "BINANCE_FUTURES_TESTNET_API_KEY",
+  "api_secret_env": "BINANCE_FUTURES_TESTNET_API_SECRET",
+  "market_rules": {
+    "hb_trading_pair": "BTC-USDT",
+    "tick_size": "0.10",
+    "step_size": "0.001",
+    "min_qty": "0.001",
+    "min_notional": "50",
+    "maker_fee_rate": "0.0002",
+    "taker_fee_rate": "0.0005",
+    "trigger_protect": "0.0500"
+  },
+  "grid": {
+    "lower_price": "76000",
+    "upper_price": "79000",
+    "grid_count": 7,
+    "allocated_margin": "400",
+    "order_quote": "80",
+    "max_open_orders": 3,
+    "leverage": 2,
+    "stop_loss_price": "74800",
+    "daily_loss_limit": "30",
+    "total_loss_limit": "80",
+    "max_position_notional": "700",
+    "max_open_order_notional": "240",
+    "spread_bps": "2",
+    "expected_funding_bps": "3",
+    "stale_price_seconds": 15
+  }
+}
