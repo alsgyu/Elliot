@@ -176,8 +176,8 @@ function renderManualReview(candidate,data,stale) {
 function manualChartLevels() {
   const c=visibleCandidate(), p=manualReview;
   if(!$("show-manual-plan").checked || !c || !p?.showLines || p.key!==`${latest.mode}:${latest.sample}:${activeTf}:${c.id}`)return [];
-  return [{name:`${p.direction>0?"LONG":"SHORT"} ${p.filled?"입력 체결가":"가정 진입"}`,value:p.entry,color:"#276caa",decimals:2},
-    {name:"수동 검토 손절",value:p.stop,color:"#b55965",decimals:2},
-    ...p.targets.map(t=>({name:`검토 ${t.label}${t.primary?" · 기본":""}${t.touchedAt?" · 기접촉":""}`,
+  return [{name:`${p.direction>0?"LONG":"SHORT"} ${t(p.filled?"체결가":"가정 진입")}`,value:p.entry,color:"#276caa",decimals:2},
+    {name:t("수동 검토 손절"),value:p.stop,color:"#b55965",decimals:2},
+    ...p.targets.map(t=>({name:`${window.t("검토")} ${t.label}${t.primary?` · ${window.t("기본")}`:""}${t.touchedAt?` · ${window.t("기접촉")}`:""}`,
       value:t.price,color:t.pricePass?"#267c69":"#7c8581",decimals:2}))];
 }

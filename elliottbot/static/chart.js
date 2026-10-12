@@ -110,7 +110,7 @@ function draw() {
   const stale = age != null && age>45;
   const warning = data.warning || (stale ? `차트 수신 지연 · 마지막 수신 ${chartStamp(data.fetched_at*1000)}` : "");
   $("chart-warning").hidden=!warning;$("chart-warning").textContent=warning;
-  $("chart-role").textContent = `${data.role || ""}${data.source ? ` · ${data.source}` : ""}`;
+  $("chart-role").textContent = `${t(data.role || "")}${data.source ? ` · ${t(data.source)}` : ""}`;
   $("chart-start").textContent=bars.length?new Date(bars[0].time).toLocaleDateString(window.elliottLocaleTag(),{timeZone:"Asia/Seoul"}):"—";
   $("chart-end").textContent=bars.length?new Date(bars.at(-1).time).toLocaleDateString(window.elliottLocaleTag(),{timeZone:"Asia/Seoul"}):"—";
   if(!bars.length){c.fillStyle="#718078";c.font="12px sans-serif";c.fillText(t("표시할 차트 데이터 없음"),12,h/2);$("chart-ohlc").textContent="OHLC 없음";$("bar-count").textContent="0봉";$("chart-caption").textContent="분석 대기";return;}

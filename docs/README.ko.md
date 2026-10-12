@@ -16,7 +16,9 @@
 <p align="center">
   <img src="images/analysis-sample.png" alt="여러 시간봉 후보와 엘리엇 파동 차트가 표시된 분석 화면" width="100%" />
 </p>
-<p align="center"><sub>데스크톱 화면 · 합성 샘플 시세 · 거래소 계정 미연결</sub></p>
+<p align="center"><sub>영문 화면 · 상단 Language 메뉴에서 한국어 선택 가능 · 합성 샘플 시세 · 거래소 계정 미연결</sub></p>
+
+웹 앱은 영어가 기본 언어이며, 상단 **Language** 메뉴에서 **한국어**로 전환할 수 있습니다. 선택한 언어는 현재 브라우저에 저장됩니다.
 
 > 엘리엇 파동 카운트는 해석이지 확률이 아닙니다. 적합도 점수는 규칙에 맞는 구조의 순위를 나타내며 승률이 아닙니다. 높은 예측 정확도나 수익을 보장한다고 주장하지 않습니다.
 
@@ -31,15 +33,15 @@
 
 ## 화면
 
-아래 이미지는 실제 프로그램에서 캡처했습니다. 4시간봉·30분봉은 모의거래 화면이고, 수동 검토선과 위험 설정은 로컬 샘플 데이터 화면입니다.
+아래 이미지는 실제 프로그램의 합성 샘플 모드에서 캡처했습니다. 거래소 계정 연결이나 실주문은 포함하지 않습니다.
 
 <table>
   <tr>
-    <td width="50%"><a href="images/waves-4h-paper.png"><img src="images/waves-4h-chart.png" alt="확정 피벗과 대안 카운트가 표시된 4시간봉 엘리엇 파동 차트" /></a><br /><sub>4시간봉 · 스윙 구조와 대안 카운트</sub></td>
-    <td width="50%"><a href="images/waves-30m-paper.png"><img src="images/waves-30m-chart.png" alt="ABC 조정 카운트와 피보나치 기준이 표시된 30분봉 차트" /></a><br /><sub>30분봉 · ABC 후보와 피보나치 참고선</sub></td>
+    <td width="50%"><a href="images/waves-4h-paper.png"><img src="images/waves-4h-chart.png" alt="확정 피벗, 손절, 목표와 무효화가 표시된 4시간봉 엘리엇 3파 후보" /></a><br /><sub>4시간봉 · 확정 0~2번 피벗과 주요 가격선이 표시된 3파 후보</sub></td>
+    <td width="50%"><a href="images/waves-30m-paper.png"><img src="images/waves-30m-chart.png" alt="확정 피벗과 주요 가격선이 표시된 30분봉 엘리엇 ABC 조정 후보" /></a><br /><sub>30분봉 · 확정 0·A·B·C 피벗이 표시된 지그재그 ABC 완료 후보</sub></td>
   </tr>
   <tr>
-    <td><img src="images/manual-levels.png" alt="가정 진입가, 손절, 무효화, 피보나치 목표선이 표시된 수동 검토 차트" /><br /><sub>수동 검토 · 가정 진입가, 손절, 무효화, 목표 참고선</sub></td>
+    <td><img src="images/manual-levels.png" alt="가정 진입가, 손절, 무효화, 목표선이 표시된 수동 검토 차트" /><br /><sub>수동 검토 · 가정 진입가, 손절, 무효화, 목표 참고선</sub></td>
     <td><img src="images/risk-settings-sample.png" alt="자본, 레버리지, 거래당 위험, 일일 한도 설정 화면" /><br /><sub>위험 설정 · 배정 자본, 레버리지, 손실 한도</sub></td>
   </tr>
 </table>

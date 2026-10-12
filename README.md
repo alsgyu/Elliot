@@ -16,7 +16,9 @@
 <p align="center">
   <img src="docs/images/analysis-sample.png" alt="Elliott BTC analysis dashboard with multi-timeframe candidates and a labeled wave chart" width="100%" />
 </p>
-<p align="center"><sub>Desktop interface · synthetic sample market data · no exchange account connected</sub></p>
+<p align="center"><sub>English interface · choose 한국어 in the header to switch · synthetic sample data · no exchange account connected</sub></p>
+
+The interface defaults to English. Choose **한국어** from the **Language** menu in the header to switch; the selection is remembered in this browser.
 
 > Elliott counts are interpretations, not probabilities. The fit score ranks rule-compatible structures; it is not a win rate. This project makes no claim of high predictive accuracy or guaranteed returns.
 
@@ -31,15 +33,15 @@
 
 ## Screenshots
 
-The screenshots below come from the running application. The 4H and 30m views are paper-mode captures; the manual chart and settings views use local sample data.
+The screenshots below come from the running application in synthetic sample mode. No exchange account or live orders are involved.
 
 <table>
   <tr>
-    <td width="50%"><a href="docs/images/waves-4h-paper.png"><img src="docs/images/waves-4h-chart.png" alt="Four-hour Elliott wave chart with confirmed pivots and alternative counts" /></a><br /><sub>4H · swing structure and alternative count</sub></td>
-    <td width="50%"><a href="docs/images/waves-30m-paper.png"><img src="docs/images/waves-30m-chart.png" alt="Thirty-minute Elliott wave chart with an ABC correction count and Fibonacci levels" /></a><br /><sub>30m · ABC candidate and Fibonacci references</sub></td>
+    <td width="50%"><a href="docs/images/waves-4h-paper.png"><img src="docs/images/waves-4h-chart.png" alt="Four-hour Elliott Wave 3 candidate with confirmed pivots, stop, target, and invalidation" /></a><br /><sub>4H · Wave 3 candidate, confirmed 0–2 pivots, and key price levels</sub></td>
+    <td width="50%"><a href="docs/images/waves-30m-paper.png"><img src="docs/images/waves-30m-chart.png" alt="Thirty-minute Elliott Wave ABC correction candidate with confirmed pivots and key price levels" /></a><br /><sub>30m · Zigzag ABC completion candidate with confirmed 0/A/B/C pivots</sub></td>
   </tr>
   <tr>
-    <td><img src="docs/images/manual-levels.png" alt="Manual chart review with entry, stop, invalidation, and Fibonacci target lines" /><br /><sub>Manual review · hypothetical entry, stop, invalidation, and target references</sub></td>
+    <td><img src="docs/images/manual-levels.png" alt="Manual chart review with hypothetical entry, stop, invalidation, and target levels" /><br /><sub>Manual review · hypothetical entry, stop, invalidation, and target references</sub></td>
     <td><img src="docs/images/risk-settings-sample.png" alt="Risk settings for capital, leverage, trade risk, and daily limits" /><br /><sub>Risk controls · capital, leverage, and loss limits</sub></td>
   </tr>
 </table>
