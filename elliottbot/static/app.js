@@ -1,7 +1,7 @@
 "use strict";
 const $ = id => document.getElementById(id);
-const fmt = (v, n = 2) => v == null || !Number.isFinite(Number(v)) ? "—" : Number(v).toLocaleString("ko-KR", { minimumFractionDigits: n, maximumFractionDigits: n });
-const stamp = ms => ms ? new Date(ms).toLocaleString("ko-KR", { timeZone: "Asia/Seoul", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }) : "—";
+const fmt = (v, n = 2) => v == null || !Number.isFinite(Number(v)) ? "—" : Number(v).toLocaleString(window.elliottLocaleTag(), { minimumFractionDigits: n, maximumFractionDigits: n });
+const stamp = ms => ms ? new Date(ms).toLocaleString(window.elliottLocaleTag(), { timeZone: "Asia/Seoul", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }) : "—";
 const names = { WAVE_3: "추진 3파 진입 후보", WAVE_5: "추진 5파 진입 후보", WAVE_C: "지그재그 C파 진입 후보", IMPULSE_COMPLETE: "추진 5개 파동 완료", ZIGZAG_COMPLETE: "지그재그 ABC 완료", DIAGONAL_WATCH: "대각선 대안", TRIANGLE_WATCH: "삼각형 대안", FLAT_OR_COMPLEX_WATCH: "플랫·복합 조정 대안" };
 const tfNames = { "1w": "주봉", "1d": "일봉", "4h": "4시간봉", "1h": "1시간봉", "30m": "30분봉", "15m": "15분봉" };
 const states = { SELECTED: "우선 카운트", CONFLICT: "대안 충돌", NO_COUNT: "확정 카운트 없음", COMPLEX_CORRECTION: "복합 조정 관망" };
@@ -242,3 +242,4 @@ $("backtest").addEventListener("click",e=>task(e.currentTarget,async()=>{await a
 $("refresh").addEventListener("click",refresh);$("close-details").addEventListener("click",()=>$("details").close());
 new ResizeObserver(()=>{draw();drawEquity();}).observe(document.querySelector("main"));
 setupRiskControls();setupComparison();setupChart();lucide.createIcons();refresh();setInterval(()=>{refresh();if(activeView==="validation")pollBacktest();},3000);
+document.addEventListener("localechange",()=>{if(latest)render();});

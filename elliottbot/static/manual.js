@@ -152,7 +152,7 @@ function renderManualReview(candidate,data,stale) {
     $("manual-summary").textContent=`계산 보류 · ${plan.error}${help}`;
     empty("manual-targets",plan.error,6);return;
   }
-  const scale=plan.perUnit?"1 BTC당":`${plan.quantity.toLocaleString("ko-KR",{maximumFractionDigits:8})} BTC 기준`;
+  const scale=plan.perUnit?"1 BTC당":`${plan.quantity.toLocaleString(window.elliottLocaleTag(),{maximumFractionDigits:8})} BTC 기준`;
   $("manual-position-summary").textContent+=` · ${scale}`;
   const primary=plan.targets.find(t=>t.primary);
   $("manual-summary").textContent=plan.issues.length

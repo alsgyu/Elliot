@@ -1,7 +1,7 @@
 "use strict";
 let chartData = null, chartRequest = 0, chartFetched = 0, chartLoading = "", chartAttempt = "";
 let chartCount = "auto", chartWindow = 360, chartAnchor = null, chartHover = null;
-const chartStamp = ms => ms ? new Date(ms).toLocaleString("ko-KR", {timeZone:"Asia/Seoul", year:"numeric", month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit", hour12:false}) : "—";
+const chartStamp = ms => ms ? new Date(ms).toLocaleString(window.elliottLocaleTag(), {timeZone:"Asia/Seoul", year:"numeric", month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit", hour12:false}) : "—";
 const waveLabels = c => c?.pattern === "TRIANGLE_WATCH" ? ["0","A","B","C","D","E"] : ["ZIGZAG_COMPLETE","WAVE_C"].includes(c?.pattern) ? ["0","A","B","C"] : c?.pattern === "FLAT_OR_COMPLEX_WATCH" ? ["P0","P1","P2","P3"] : ["0","1","2","3","4","5"];
 const isReferenceChart = () => activeTf === "15m" || (activeTf === "30m" && latest?.settings.strategy_mode !== "active");
 
@@ -111,9 +111,9 @@ function draw() {
   const warning = data.warning || (stale ? `차트 수신 지연 · 마지막 수신 ${chartStamp(data.fetched_at*1000)}` : "");
   $("chart-warning").hidden=!warning;$("chart-warning").textContent=warning;
   $("chart-role").textContent = `${data.role || ""}${data.source ? ` · ${data.source}` : ""}`;
-  $("chart-start").textContent=bars.length?new Date(bars[0].time).toLocaleDateString("ko-KR",{timeZone:"Asia/Seoul"}):"—";
-  $("chart-end").textContent=bars.length?new Date(bars.at(-1).time).toLocaleDateString("ko-KR",{timeZone:"Asia/Seoul"}):"—";
-  if(!bars.length){c.fillStyle="#718078";c.font="12px sans-serif";c.fillText("표시할 차트 데이터 없음",12,h/2);$("chart-ohlc").textContent="OHLC 없음";$("bar-count").textContent="0봉";$("chart-caption").textContent="분석 대기";return;}
+  $("chart-start").textContent=bars.length?new Date(bars[0].time).toLocaleDateString(window.elliottLocaleTag(),{timeZone:"Asia/Seoul"}):"—";
+  $("chart-end").textContent=bars.length?new Date(bars.at(-1).time).toLocaleDateString(window.elliottLocaleTag(),{timeZone:"Asia/Seoul"}):"—";
+  if(!bars.length){c.fillStyle="#718078";c.font="12px sans-serif";c.fillText(t("표시할 차트 데이터 없음"),12,h/2);$("chart-ohlc").textContent="OHLC 없음";$("bar-count").textContent="0봉";$("chart-caption").textContent="분석 대기";return;}
   const left=8,right=73,top=23,bottom=24,cw=Math.max(20,w-left-right),ch=h-top-bottom;
   const manualLevels=manualChartLevels(), manualPrices=manualLevels.map(l=>l.value);
   const lo=Math.min(...bars.map(b=>b.low),...manualPrices),hi=Math.max(...bars.map(b=>b.high),...manualPrices),padding=(hi-lo)*.12 || 1;
@@ -145,22 +145,22 @@ function draw() {
     c.fillStyle="#ffffffeb";c.fillRect(xx-3,yy-7,width,14);c.fillStyle="#225d8f";c.fillText(label,xx,yy);
   }
   const levels=[...manualLevels];
-  if($("show-levels").checked && candidate)for(const [name,value,color] of [["무효화",candidate.invalidation,"#8c6388"],["후보 손절",candidate.stop,"#b55965"],["후보 목표",candidate.target,"#267c69"]])if(value>0 && !manualLevels.some(l=>Math.abs(l.value-guideRound(value,Number(latest.quote?.rules?.tick)||.01,candidate.direction<0))<1e-8))levels.push({name,value,color});
+  if($("show-levels").checked && candidate)for(const [name,value,color] of [[t("무효화"),candidate.invalidation,"#8c6388"],[t("후보 손절"),candidate.stop,"#b55965"],[t("후보 목표"),candidate.target,"#267c69"]])if(value>0 && !manualLevels.some(l=>Math.abs(l.value-guideRound(value,Number(latest.quote?.rules?.tick)||.01,candidate.direction<0))<1e-8))levels.push({name,value,color});
   if($("show-fib").checked && candidate && ["WAVE_3","WAVE_5","IMPULSE_COMPLETE","ZIGZAG_COMPLETE"].includes(candidate.pattern)){
     const ps=candidate.pivots, base=candidate.pattern==="WAVE_5"?2:0, a=ps[base],b=ps[base+1];
-    for(const ratio of [.382,.5,.618,.786])levels.push({name:`${base===2?"3파":"첫 다리"} ${fmt(ratio*100,1)}%`,value:b.price-(b.price-a.price)*ratio,color:"#788aaa"});
+    for(const ratio of [.382,.5,.618,.786])levels.push({name:`${base===2?t("3파"):t("첫 다리")} ${fmt(ratio*100,1)}%`,value:b.price-(b.price-a.price)*ratio,color:"#788aaa"});
   }
   let labelY=top-14;
   for(const level of levels.filter(l=>y(l.value)>=top && y(l.value)<=h-bottom).sort((a,b)=>y(a.value)-y(b.value))){const yy=y(level.value);path([{time:bars[0].time-data.interval,price:level.value},{time:bars.at(-1).time+data.interval,price:level.value}],level.color,1,[5,5]);const text=`${level.name} ${fmt(level.value,level.decimals || 0)}`;c.font="10px sans-serif";labelY=Math.max(yy-6,labelY+14);if(labelY>h-bottom-6)continue;c.fillStyle="#fffffff0";c.fillRect(left+2,labelY-7,c.measureText(text).width+8,14);c.fillStyle=level.color;c.fillText(text,left+6,labelY);}
   let picked=bars.at(-1);
   if(chartHover!=null){const index=Math.max(0,Math.min(bars.length-1,Math.floor((chartHover-left)/cw*bars.length)));picked=bars[index];c.strokeStyle="#697b85";c.lineWidth=1;c.setLineDash([3,3]);c.beginPath();c.moveTo(x(picked.time),top);c.lineTo(x(picked.time),h-bottom);c.moveTo(left,y(picked.close));c.lineTo(w-right,y(picked.close));c.stroke();c.setLineDash([]);}
   c.restore();
-  if(data.forming && bars.at(-1).forming){c.fillStyle="#986b16";c.font="10px sans-serif";const text="진행 중";c.fillText(text,Math.max(left,Math.min(w-right-38,x(data.forming.time)-20)),12);}
+  if(data.forming && bars.at(-1).forming){c.fillStyle="#986b16";c.font="10px sans-serif";const text=t("진행 중");c.fillText(text,Math.max(left,Math.min(w-right-38,x(data.forming.time)-20)),12);}
   c.fillStyle="#6d7c74";c.font="9px sans-serif";c.textBaseline="alphabetic";
-  const firstLabel=new Date(bars[0].time).toLocaleDateString("ko-KR",{timeZone:"Asia/Seoul"}),lastLabel=new Date(bars.at(-1).time).toLocaleDateString("ko-KR",{timeZone:"Asia/Seoul"});
+  const firstLabel=new Date(bars[0].time).toLocaleDateString(window.elliottLocaleTag(),{timeZone:"Asia/Seoul"}),lastLabel=new Date(bars.at(-1).time).toLocaleDateString(window.elliottLocaleTag(),{timeZone:"Asia/Seoul"});
   c.fillText(firstLabel,left,h-3);if(cw>170)c.fillText(lastLabel,w-right-c.measureText(lastLabel).width,h-3);
-  $("chart-ohlc").textContent=`${chartStamp(picked.time)} · ${picked.forming?"진행 중":"마감"}   시 ${fmt(picked.open)}   고 ${fmt(picked.high)}   저 ${fmt(picked.low)}   종 ${fmt(picked.close)}   거래량 ${fmt(picked.volume,1)}`;
-  $("bar-count").textContent=`${tfNames[activeTf]} ${bars.length} / ${chartBars().length}봉 · ${bars.at(-1).forming?"진행봉 포함":"마감봉만"}`;
+  $("chart-ohlc").textContent=`${chartStamp(picked.time)} · ${picked.forming?t("진행 중"):t("마감")}   O ${fmt(picked.open)}   H ${fmt(picked.high)}   L ${fmt(picked.low)}   C ${fmt(picked.close)}   ${t("거래량")} ${fmt(picked.volume,1)}`;
+  $("bar-count").textContent=`${tfNames[activeTf]} ${bars.length} / ${chartBars().length} ${t("bars")} · ${t(bars.at(-1).forming?"진행봉 포함":"마감봉만")}`;
   const hiddenPoints=candidate?.pivots.filter(p=>p.time<bars[0].time||p.time>bars.at(-1).time).length || 0;
   $("chart-caption").textContent=candidate?`${names[candidate.pattern]} · ${data.frame?.selected===candidate.id?"우선":"대안 · 최종 선택 아님"} · 확인된 끝점 ${candidate.pivots.length}개${hiddenPoints?` · 범위 밖 ${hiddenPoints}개`:""}`:"미확정 구조 · 번호 없는 스윙";
 }

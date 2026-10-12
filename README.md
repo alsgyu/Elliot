@@ -10,7 +10,6 @@
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Binance USDⓈ-M](https://img.shields.io/badge/Market-Binance%20USD%E2%93%88--M-F0B90B?logo=binance&logoColor=111)](https://www.binance.com/)
 [![Local first](https://img.shields.io/badge/Mode-local--first-16856a)](#privacy-and-security)
-[![GitHub stars](https://img.shields.io/github/stars/alsgyu/Elliot?style=social)](https://github.com/alsgyu/Elliot/stargazers)
 
 </div>
 
@@ -126,7 +125,7 @@ The latest verification report records 194 passing unit, regression, and HTTP te
 
 Bug reports and focused pull requests are welcome. Please include a reproducible case and distinguish a software defect from a disputed Elliott count. Do not attach API credentials, account identifiers, or private journal files.
 
-If this project is useful to you, a GitHub star helps other traders find it. Stars are not evidence that a strategy works.
+Contributions and reproducible issue reports are welcome. Community interest is not evidence that a strategy works.
 
 ## License
 

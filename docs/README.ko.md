@@ -10,7 +10,6 @@
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Binance USDⓈ-M](https://img.shields.io/badge/Market-Binance%20USD%E2%93%88--M-F0B90B?logo=binance&logoColor=111)](https://www.binance.com/)
 [![Local first](https://img.shields.io/badge/Mode-local--first-16856a)](../README.md#privacy-and-security)
-[![GitHub stars](https://img.shields.io/github/stars/alsgyu/Elliot?style=social)](https://github.com/alsgyu/Elliot/stargazers)
 
 </div>
 
@@ -126,7 +125,7 @@ cd Elliot
 
 재현할 수 있는 버그 제보와 범위를 좁힌 PR을 환영합니다. 소프트웨어 결함과 엘리엇 카운트 해석의 이견을 구분해 주세요. API 키, 계정 식별 정보, 비공개 거래 기록은 올리지 마세요.
 
-프로젝트가 유용했다면 GitHub Star가 다른 사용자에게 프로젝트를 알리는 데 도움이 됩니다. Star 수는 전략이 작동한다는 근거가 아닙니다.
+재현 가능한 이슈와 기여를 환영합니다. 커뮤니티의 관심은 전략의 성과를 입증하지 않습니다.
 
 ## 라이선스
 
