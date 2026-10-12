@@ -14,9 +14,9 @@
 </div>
 
 <p align="center">
-  <img src="docs/images/analysis-sample.png" alt="Elliott BTC analysis dashboard with multi-timeframe candidates and a labeled wave chart" width="100%" />
+  <img src="docs/images/analysis-current.png" alt="Current Bitcoin multi-timeframe dashboard showing a 4H Elliott Wave chart and WAIT decision" width="100%" />
 </p>
-<p align="center"><sub>English interface · choose 한국어 in the header to switch · synthetic sample data · no exchange account connected</sub></p>
+<p align="center"><sub>English interface · choose 한국어 in the header to switch · Binance USD-M public market data · PAPER mode · no API credentials, exchange account, or live orders</sub></p>
 
 The interface defaults to English. Choose **한국어** from the **Language** menu in the header to switch; the selection is remembered in this browser.
 
@@ -33,15 +33,15 @@ The interface defaults to English. Choose **한국어** from the **Language** me
 
 ## Screenshots
 
-The screenshots below come from the running application in synthetic sample mode. No exchange account or live orders are involved.
+These static screenshots were captured from the running PAPER app using public Binance USD-M candles on **12 Oct 2026 (KST)**. No API credentials, exchange account, or live orders were used. The main dashboard shows `WAIT`; the count examples below are not trade recommendations.
 
 <table>
   <tr>
-    <td width="50%"><a href="docs/images/waves-4h-paper.png"><img src="docs/images/waves-4h-chart.png" alt="Four-hour Elliott Wave 3 candidate with confirmed pivots, stop, target, and invalidation" /></a><br /><sub>4H · Wave 3 candidate, confirmed 0–2 pivots, and key price levels</sub></td>
-    <td width="50%"><a href="docs/images/waves-30m-paper.png"><img src="docs/images/waves-30m-chart.png" alt="Thirty-minute Elliott Wave ABC correction candidate with confirmed pivots and key price levels" /></a><br /><sub>30m · Zigzag ABC completion candidate with confirmed 0/A/B/C pivots</sub></td>
+    <td width="50%"><img src="docs/images/waves-4h-chart.png" alt="Historical four-hour Elliott Wave 3 LONG candidate with confirmed pivots, stop, target, and invalidation" /><br /><sub>4H · Historical Wave 3 LONG example · 12 Oct 2026, 16:59 KST · fit 61.2/100, below the 70 minimum · not a current signal</sub></td>
+    <td width="50%"><img src="docs/images/waves-30m-chart.png" alt="Latest thirty-minute Elliott Wave ABC completion candidate projected SHORT, marked reference-only" /><br /><sub>30m · Latest ABC SHORT candidate · fit 64.5/100, below the 70 minimum · reference only, not the final count or an entry signal</sub></td>
   </tr>
   <tr>
-    <td><img src="docs/images/manual-levels.png" alt="Manual chart review with hypothetical entry, stop, invalidation, and target levels" /><br /><sub>Manual review · hypothetical entry, stop, invalidation, and target references</sub></td>
+    <td><img src="docs/images/manual-levels.png" alt="Manual chart review with a hypothetical SHORT entry, stop, invalidation, and target levels" /><br /><sub>Manual review · hypothetical SHORT at the snapshot price · not an exchange position</sub></td>
     <td><img src="docs/images/risk-settings-sample.png" alt="Risk settings for capital, leverage, trade risk, and daily limits" /><br /><sub>Risk controls · capital, leverage, and loss limits</sub></td>
   </tr>
 </table>

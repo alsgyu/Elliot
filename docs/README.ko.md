@@ -14,9 +14,9 @@
 </div>
 
 <p align="center">
-  <img src="images/analysis-sample.png" alt="여러 시간봉 후보와 엘리엇 파동 차트가 표시된 분석 화면" width="100%" />
+  <img src="images/analysis-current.png" alt="현재 BTC 다중 시간봉 대시보드와 4시간봉 엘리엇 파동 차트, WAIT 판정" width="100%" />
 </p>
-<p align="center"><sub>영문 화면 · 상단 Language 메뉴에서 한국어 선택 가능 · 합성 샘플 시세 · 거래소 계정 미연결</sub></p>
+<p align="center"><sub>영문 화면 · 상단 Language 메뉴에서 한국어 선택 가능 · Binance USD-M 공개 시세 · PAPER 모드 · API 키·거래소 계정·실주문 미사용</sub></p>
 
 웹 앱은 영어가 기본 언어이며, 상단 **Language** 메뉴에서 **한국어**로 전환할 수 있습니다. 선택한 언어는 현재 브라우저에 저장됩니다.
 
@@ -33,15 +33,15 @@
 
 ## 화면
 
-아래 이미지는 실제 프로그램의 합성 샘플 모드에서 캡처했습니다. 거래소 계정 연결이나 실주문은 포함하지 않습니다.
+아래 이미지는 **2026년 10월 12일(KST)** 공개 Binance USD-M 캔들을 사용해 실제 PAPER 화면에서 캡처한 정적 스냅샷입니다. API 키·거래소 계정·실주문은 사용하지 않았습니다. 메인 화면의 판정은 `WAIT`이며, 아래 카운트 예시는 매매 추천이 아닙니다.
 
 <table>
   <tr>
-    <td width="50%"><a href="images/waves-4h-paper.png"><img src="images/waves-4h-chart.png" alt="확정 피벗, 손절, 목표와 무효화가 표시된 4시간봉 엘리엇 3파 후보" /></a><br /><sub>4시간봉 · 확정 0~2번 피벗과 주요 가격선이 표시된 3파 후보</sub></td>
-    <td width="50%"><a href="images/waves-30m-paper.png"><img src="images/waves-30m-chart.png" alt="확정 피벗과 주요 가격선이 표시된 30분봉 엘리엇 ABC 조정 후보" /></a><br /><sub>30분봉 · 확정 0·A·B·C 피벗이 표시된 지그재그 ABC 완료 후보</sub></td>
+    <td width="50%"><img src="images/waves-4h-chart.png" alt="확정 피벗, 손절, 목표와 무효화가 표시된 과거 4시간봉 엘리엇 3파 롱 후보" /><br /><sub>4시간봉 · 과거 3파 LONG 예시 · 2026년 10월 12일 16:59 KST · 적합도 61.2/100, 최소 기준 70 미달 · 현재 신호 아님</sub></td>
+    <td width="50%"><img src="images/waves-30m-chart.png" alt="참고 전용으로 표시된 최신 30분봉 엘리엇 ABC 완료 숏 후보" /><br /><sub>30분봉 · 최신 ABC SHORT 후보 · 적합도 64.5/100, 최소 기준 70 미달 · 참고용이며 최종 카운트나 진입 신호가 아님</sub></td>
   </tr>
   <tr>
-    <td><img src="images/manual-levels.png" alt="가정 진입가, 손절, 무효화, 목표선이 표시된 수동 검토 차트" /><br /><sub>수동 검토 · 가정 진입가, 손절, 무효화, 목표 참고선</sub></td>
+    <td><img src="images/manual-levels.png" alt="가정 SHORT 진입가, 손절, 무효화, 목표선이 표시된 수동 검토 차트" /><br /><sub>수동 검토 · 스냅샷 가격의 가정 SHORT · 거래소 포지션이 아님</sub></td>
     <td><img src="images/risk-settings-sample.png" alt="자본, 레버리지, 거래당 위험, 일일 한도 설정 화면" /><br /><sub>위험 설정 · 배정 자본, 레버리지, 손실 한도</sub></td>
   </tr>
 </table>

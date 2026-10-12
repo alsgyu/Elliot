@@ -3,6 +3,7 @@
 
   const pairs = [
     ["시세 연결 중", "Connecting to market data"], ["시세 연결됨", "Market data connected"], ["시세 대기", "Waiting for market data"],
+    ["Binance USD-M 공개 실시간", "Binance USD-M public market data"], ["Binance USD-M 계약 체결가", "Binance USD-M contract price"], ["Binance DEMO 계약 체결가", "Binance Demo contract price"],
     ["비트코인", "Bitcoin"], ["엘리엇 파동", "Elliott Wave"], ["공개 선물 시세 연결 대기", "Waiting for public futures data"],
     ["시세 연결 대기", "Waiting for market data"], ["신규 진입 중단", "Entries paused"], ["자동매매 가동", "Trading active"],
     ["신규 진입 중단 상태", "New entries paused"], ["자동매매 시작", "Start trading"], ["진입 중단", "Pause entries"],
