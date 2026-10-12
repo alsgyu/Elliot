@@ -33,13 +33,17 @@
 
 ## 화면
 
-아래 이미지는 **2026년 10월 12일(KST)** 공개 Binance USD-M 캔들을 사용해 실제 PAPER 화면에서 캡처한 정적 스냅샷입니다. API 키·거래소 계정·실주문은 사용하지 않았습니다. 메인 화면의 판정은 `WAIT`이며, 아래 카운트 예시는 매매 추천이 아닙니다.
+아래 이미지는 **2026년 10월 12일(KST)** 공개 Binance USD-M 캔들을 사용해 실제 PAPER 화면에서 캡처한 정적 스냅샷입니다. API 키·거래소 계정·실주문은 사용하지 않았습니다. LONG 과거 후보, SHORT 참고 후보, 현재 `WAIT` 판정까지 세 가지 결과를 각각 보여줍니다. LONG·SHORT 후보는 설정된 적합도 기준에 미달하므로 진입 신호가 아닙니다.
 
 <table>
   <tr>
-    <td width="50%"><img src="images/waves-4h-chart.png" alt="확정 피벗, 손절, 목표와 무효화가 표시된 과거 4시간봉 엘리엇 3파 롱 후보" /><br /><sub>4시간봉 · 과거 3파 LONG 예시 · 2026년 10월 12일 16:59 KST · 적합도 61.2/100, 최소 기준 70 미달 · 현재 신호 아님</sub></td>
-    <td width="50%"><img src="images/waves-30m-chart.png" alt="참고 전용으로 표시된 최신 30분봉 엘리엇 ABC 완료 숏 후보" /><br /><sub>30분봉 · 최신 ABC SHORT 후보 · 적합도 64.5/100, 최소 기준 70 미달 · 참고용이며 최종 카운트나 진입 신호가 아님</sub></td>
+    <td width="33%"><img src="images/waves-4h-chart.png" alt="확정 피벗, 손절, 목표와 무효화가 표시된 과거 4시간봉 엘리엇 3파 롱 후보" /><br /><sub>LONG · 4시간 3파 과거 후보 · 2026년 10월 12일 16:59 KST · 적합도 61.2/100, 최소 기준 70 미달 · 현재 신호 아님</sub></td>
+    <td width="33%"><img src="images/waves-30m-chart.png" alt="참고 전용으로 표시된 30분봉 엘리엇 ABC 완료 숏 후보" /><br /><sub>SHORT · 30분 ABC 후보 · 2026년 10월 12일 캡처 · 적합도 64.5/100, 최소 기준 70 미달 · 참고용이며 진입 신호가 아님</sub></td>
+    <td width="33%"><img src="images/direction-neutral.png" alt="진입 가능한 파동 구조가 확인되지 않아 현재 4시간 전략 판정이 WAIT인 대시보드" /><br /><sub>NEUTRAL / WAIT · 현재 4시간 전략 판정 · 진입 가능한 3파·5파 구조 미확인</sub></td>
   </tr>
+</table>
+
+<table>
   <tr>
     <td><img src="images/manual-levels.png" alt="가정 SHORT 진입가, 손절, 무효화, 목표선이 표시된 수동 검토 차트" /><br /><sub>수동 검토 · 스냅샷 가격의 가정 SHORT · 거래소 포지션이 아님</sub></td>
     <td><img src="images/risk-settings-sample.png" alt="자본, 레버리지, 거래당 위험, 일일 한도 설정 화면" /><br /><sub>위험 설정 · 배정 자본, 레버리지, 손실 한도</sub></td>

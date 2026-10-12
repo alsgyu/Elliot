@@ -33,13 +33,17 @@ The interface defaults to English. Choose **한국어** from the **Language** me
 
 ## Screenshots
 
-These static screenshots were captured from the running PAPER app using public Binance USD-M candles on **12 Oct 2026 (KST)**. No API credentials, exchange account, or live orders were used. The main dashboard shows `WAIT`; the count examples below are not trade recommendations.
+These static screenshots were captured from the running PAPER app using public Binance USD-M candles on **12 Oct 2026 (KST)**. No API credentials, exchange account, or live orders were used. They show all three outcomes: a historical LONG candidate, a SHORT reference candidate, and the current `WAIT` decision. The directional candidates are below the configured fit threshold and are not trade signals.
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/images/waves-4h-chart.png" alt="Historical four-hour Elliott Wave 3 LONG candidate with confirmed pivots, stop, target, and invalidation" /><br /><sub>4H · Historical Wave 3 LONG example · 12 Oct 2026, 16:59 KST · fit 61.2/100, below the 70 minimum · not a current signal</sub></td>
-    <td width="50%"><img src="docs/images/waves-30m-chart.png" alt="Latest thirty-minute Elliott Wave ABC completion candidate projected SHORT, marked reference-only" /><br /><sub>30m · Latest ABC SHORT candidate · fit 64.5/100, below the 70 minimum · reference only, not the final count or an entry signal</sub></td>
+    <td width="33%"><img src="docs/images/waves-4h-chart.png" alt="Historical four-hour Elliott Wave 3 LONG candidate with confirmed pivots, stop, target, and invalidation" /><br /><sub>LONG · 4H Wave 3 historical candidate · 12 Oct 2026, 16:59 KST · fit 61.2/100, below the 70 minimum · not a current signal</sub></td>
+    <td width="33%"><img src="docs/images/waves-30m-chart.png" alt="Latest thirty-minute Elliott Wave ABC completion candidate projected SHORT, marked reference-only" /><br /><sub>SHORT · 30m ABC candidate · 12 Oct 2026 snapshot · fit 64.5/100, below the 70 minimum · reference only, not an entry signal</sub></td>
+    <td width="33%"><img src="docs/images/direction-neutral.png" alt="Current four-hour dashboard decision is WAIT because no qualified entry structure is confirmed" /><br /><sub>NEUTRAL / WAIT · Current 4H strategy decision · no qualified Wave 3/5 entry structure</sub></td>
   </tr>
+</table>
+
+<table>
   <tr>
     <td><img src="docs/images/manual-levels.png" alt="Manual chart review with a hypothetical SHORT entry, stop, invalidation, and target levels" /><br /><sub>Manual review · hypothetical SHORT at the snapshot price · not an exchange position</sub></td>
     <td><img src="docs/images/risk-settings-sample.png" alt="Risk settings for capital, leverage, trade risk, and daily limits" /><br /><sub>Risk controls · capital, leverage, and loss limits</sub></td>
