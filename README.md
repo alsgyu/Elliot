@@ -12,18 +12,31 @@
 
 </div>
 
-## Real BTC chart examples
+## Live app analysis
 
-These are real BTC market charts published by third parties on TradingView, not mockups or output from this app. Each image links to its source and retains TradingView attribution. Each count is the author's dated interpretation, not independent proof of accuracy; this project does not claim a win rate.
+The app analyzes current BTCUSDT candles, draws its own Elliott count on each selected timeframe, and ranks the resulting directional candidates. Each screenshot is captured from this app in paper mode using Binance USDⓈ-M public market data on **October 22, 2026**. Click any image to inspect the full-resolution chart.
 
-<p align="center"><a href="https://es.tradingview.com/chart/BTCUSD/mJZYXC4F/"><img src="https://s3.tradingview.com/m/mJZYXC4F_mid.webp" alt="WhiteBIT TradingView BTC/USD chart with Elliott impulse and corrective wave labels across 2025–2026 price action" width="100%" /></a></p>
-<p align="center"><b>Impulse and correction in BTC/USD</b><br />WhiteBIT on TradingView · Published Mar 12, 2026 · BTC price history spanning 2025–2026 · <a href="https://es.tradingview.com/chart/BTCUSD/mJZYXC4F/">Original chart and analysis</a></p>
+**1W · Neutral / Wait**<br />
+Top candidate fit: **64.9 / 100** · conflicting alternatives
 
-<p align="center"><a href="https://www.tradingview.com/chart/BTCUSD/mO5I6PzE-Bitcoin-Is-the-WXYXZ-Correction-Setting-Up-Wave-C/"><img src="https://s3.tradingview.com/m/mO5I6PzE_mid.webp" alt="TradingView BTC/USD chart showing a conditional WXYXZ correction count and possible upward C wave" width="100%" /></a></p>
-<p align="center"><b>Conditional bullish scenario</b><br />KlejdiCuni on TradingView · Published Feb 13, updated Feb 15, 2026 · Possible C-wave advance after a WXYXZ correction · <a href="https://www.tradingview.com/chart/BTCUSD/mO5I6PzE-Bitcoin-Is-the-WXYXZ-Correction-Setting-Up-Wave-C/">Original chart and analysis</a></p>
+<p align="center"><a href="docs/images/timeframe-1w.png"><img src="docs/images/timeframe-1w.png" alt="App-generated weekly BTCUSDT Elliott wave chart with a neutral outlook and a 64.9 structural fit score" width="100%" /></a></p>
 
-<p align="center"><a href="https://www.tradingview.com/chart/BTCUSD/6u85i1Lm-No-Clear-Signal-That-Bitcoin-Has-Finished-Dropping/"><img src="https://s3.tradingview.com/6/6u85i1Lm_mid.png" alt="TradingView weekly BTC/USD chart showing a completed five-wave advance and a proposed A-B-C correction" width="100%" /></a></p>
-<p align="center"><b>Bearish weekly alternative</b><br />BrightRally Research on TradingView · Weekly BTC/USD · Published Mar 24, updated Apr 27, 2026 · An independent author's ABC correction scenario, not a verified system result · <a href="https://www.tradingview.com/chart/BTCUSD/6u85i1Lm-No-Clear-Signal-That-Bitcoin-Has-Finished-Dropping/">Original chart and analysis</a></p>
+**1D · Projected LONG**<br />
+Selected fit: **66.4 / 100** · primary count
+
+<p align="center"><a href="docs/images/timeframe-1d.png"><img src="docs/images/timeframe-1d.png" alt="App-generated daily BTCUSDT Elliott wave chart with a projected long candidate and a 66.4 structural fit score" width="100%" /></a></p>
+
+**4H · Projected SHORT**<br />
+Selected fit: **65.9 / 100** · primary count
+
+<p align="center"><a href="docs/images/timeframe-4h.png"><img src="docs/images/timeframe-4h.png" alt="App-generated four-hour BTCUSDT Elliott wave chart with a projected short candidate and a 65.9 structural fit score" width="100%" /></a></p>
+
+**1H · Neutral / Wait**<br />
+Top candidate fit: **61.0 / 100** · conflicting alternatives
+
+<p align="center"><a href="docs/images/timeframe-1h.png"><img src="docs/images/timeframe-1h.png" alt="App-generated hourly BTCUSDT Elliott wave chart with a neutral outlook and a 61.0 structural fit score" width="100%" /></a></p>
+
+**Fit scores rank rule-based structural matches; they are not probabilities, confidence levels, or win rates.** In this captured market snapshot the overall decision is **WAIT** and new entries are paused. The directional projections are conditional Elliott-wave hypotheses, not trade instructions.
 
 ## Core features
 

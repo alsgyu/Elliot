@@ -85,6 +85,8 @@
 .legend-confirmed::before,.legend-pending::before{content:"";display:inline-block;width:20px;border-top:2px solid #286ba3}
 .legend-pending::before{border-top:2px dashed #b18023}.legend-open::before{content:"";height:9px;width:5px;border:1px dashed #258468}
 #chart-role{width:100%;color:#5a6878}
+.timeframe-head{min-height:44px;border-top:1px solid var(--line);margin-top:4px}.timeframe-head .muted{font-size:10px}.timeframes{border-top:0;padding:11px 0 19px}.tf small{display:block;font-size:10px;color:var(--muted);margin-top:5px;line-height:1.5;overflow-wrap:anywhere}
+@media(max-width:760px){.timeframe-head{min-height:54px}.timeframe-head .muted{max-width:150px;text-align:right}}
 .chart-warning{font-size:11px;line-height:1.7;color:#a35e28;background:#fff7ed;border-left:2px solid #cc9356;padding:8px 10px;overflow-wrap:anywhere}
 .wave-evidence{border-top:1px solid var(--line);padding-bottom:22px}
 .wave-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px 24px;margin:0;padding:2px 0 18px}

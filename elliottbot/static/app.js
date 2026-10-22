@@ -58,7 +58,17 @@ function render() {
   }
   const checks = Object.entries(checkTitles).map(([id,title]) => { const check=d?.checks.find(c=>c.id===id), li = document.createElement("li"), icon = document.createElement("span"), text = document.createElement("span"); icon.className = `check-symbol ${check?.passed ? "" : "fail"}`; icon.textContent = check?.passed ? "✓" : check ? "○" : "·"; text.textContent = `${title} · ${check?.passed ? "통과" : check ? "미통과" : "앞 단계 대기"}`; if(check)li.title=check.detail;else li.className="muted"; li.append(icon, text); return li; });
   $("checks").replaceChildren(...checks);
-  $("timeframes").replaceChildren(...(active?["1w","1d","4h","1h","30m","15m"]:["1w","1d","4h","1h"]).map(tf => { const frame = d?.frames[tf], el = document.createElement("div"); el.className = "tf"; const h = document.createElement("h3"), strong = document.createElement("strong"), small = document.createElement("p"); h.textContent = tfNames[tf]; strong.textContent = frame?.bias ? frame.bias > 0 ? "예상 LONG" : "예상 SHORT" : "중립 / 관망"; color(strong, frame?.bias || 0); small.textContent = states[frame?.state] || "분석 대기"; el.append(h, strong, small); return el; }));
+  $("timeframes").replaceChildren(...(active?["1w","1d","4h","1h","30m","15m"]:["1w","1d","4h","1h"]).map(tf => {
+    const frame = d?.frames[tf], el = document.createElement("div"); el.className = "tf";
+    const h = document.createElement("h3"), strong = document.createElement("strong"), state = document.createElement("p"), fit = document.createElement("small");
+    const candidate = frame?.candidates?.find(c => c.id === frame.selected) || frame?.candidates?.[0];
+    h.textContent = tfNames[tf];
+    strong.textContent = frame?.bias ? frame.bias > 0 ? "예상 LONG" : "예상 SHORT" : "중립 / 관망";
+    color(strong, frame?.bias || 0);
+    state.textContent = states[frame?.state] || "분석 대기";
+    fit.textContent = candidate ? `${frame?.selected ? "Selected" : "Top candidate"} fit ${fmt(candidate.score, 1)} / 100` : "No rule-fitting candidate";
+    el.append(h, strong, state, fit); return el;
+  }));
   document.querySelector("#validation-view>.section-head .muted").textContent = `단일 재생 240개 ${active ? "15분" : scenarioMode ? "30분" : "1시간"}봉 · 전략 비교 480개 ${latest.limits?.strategy_modes?.includes("active")?"15분":"30분"}봉`;
   renderScenarios(); renderCandidates(); renderWaveEvidence(); renderJournal();
   renderSettingsSupport();
