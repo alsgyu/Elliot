@@ -64,8 +64,6 @@
 #scenario-section .empty{height:60px}
 .form-grid .strategy-picker{grid-column:1/-1}
 #scenario-section td:nth-child(7){white-space:normal;min-width:180px;max-width:360px;line-height:1.6}
-#locale{font:inherit;font-size:11px;min-height:30px;border:1px solid var(--line);border-radius:4px;background:#fff;color:#35433a;padding:4px 24px 4px 8px}
-.locale-picker{display:flex;align-items:center}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 #validation-view>.section-head{flex-wrap:wrap;padding:15px 0}
 #validation-view>.section-head>div{flex:1;min-width:220px}

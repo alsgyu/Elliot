@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Elliott BTC</title><link rel="stylesheet" href="/style.css"><script src="/i18n.js"></script><script defer src="/vendor/lucide.min.js"></script><script defer src="/guide.js"></script><script defer src="/manual.js"></script><script defer src="/chart.js"></script><script defer src="/app.js"></script></head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Elliott BTC</title><link rel="stylesheet" href="/style.css"><script src="/i18n.js?v=english-only-20261022"></script><script defer src="/vendor/lucide.min.js"></script><script defer src="/guide.js"></script><script defer src="/manual.js"></script><script defer src="/chart.js"></script><script defer src="/app.js"></script></head>
 <body>
-<header><a class="brand" href="/"><i data-lucide="chart-no-axes-combined"></i>Elliott BTC</a><div class="header-right"><label class="locale-picker"><span class="sr-only">Language</span><select id="locale" aria-label="Language"><option value="en">English</option><option value="ko">한국어</option></select></label><span id="mode" class="badge">PAPER</span><span id="connection">시세 연결 중</span><button class="icon" id="refresh" title="새로고침" aria-label="새로고침"><i data-lucide="refresh-cw"></i></button></div></header>
+<header><a class="brand" href="/"><i data-lucide="chart-no-axes-combined"></i>Elliott BTC</a><div class="header-right"><span id="mode" class="badge">PAPER</span><span id="connection">시세 연결 중</span><button class="icon" id="refresh" title="새로고침" aria-label="새로고침"><i data-lucide="refresh-cw"></i></button></div></header>
 <main>
   <section class="instrument"><div><div class="eyebrow">BINANCE USDⓈ-M · BTCUSDT</div><h1>비트코인 <span>엘리엇 파동</span></h1><p id="source">공개 선물 시세 연결 대기</p></div><div class="ticker"><strong id="price">—</strong><span>USDT · MARK PRICE</span></div><div class="engine"><span id="engine-state" class="badge">신규 진입 중단</span><span id="updated">—</span></div></section>
   <nav aria-label="작업 화면"><button class="active" data-view="analysis"><i data-lucide="chart-candlestick"></i>파동 분석</button><button data-view="journal"><i data-lucide="notebook-pen"></i>매매 기록</button><button data-view="settings"><i data-lucide="sliders-horizontal"></i>위험 설정</button><button data-view="connect"><i data-lucide="plug"></i>거래소 연결</button><button data-view="validation"><i data-lucide="flask-conical"></i>검증</button></nav>
   <div id="notice" class="notice" hidden role="status"></div>
   <section class="account-bar"><div><span>배정 자산</span><strong id="equity">—</strong></div><div><span>비용 후 순손익</span><strong id="net">—</strong></div><div><span>포지션</span><strong id="position">없음</strong></div><div><span>레버리지</span><strong id="leverage">1×</strong></div><div class="commands"><button data-action="pause" title="포지션 보호는 유지하고 신규 진입만 중단"><i data-lucide="pause"></i>진입 중단</button><button data-action="start" class="primary"><i data-lucide="play"></i>자동매매 시작</button><button data-action="flatten" title="포지션 시장가 정리"><i data-lucide="square"></i>정리</button><button data-action="emergency" class="danger-text" title="비상 정지 및 포지션 정리"><i data-lucide="octagon-alert"></i>비상 정지</button></div></section>
   <section id="analysis-view" class="view">
-    <div class="decision-band"><span id="action" class="decision-badge">WAIT</span><div><h2 id="reason">마감된 캔들 수신 대기</h2><span id="decision-meta">규칙 적합도 기반 · 승률 미산정</span></div><a class="document-link" href="/rules.md"><i data-lucide="book-open"></i>파동 규칙 MD</a></div>
+    <div class="decision-band"><span id="action" class="decision-badge">WAIT</span><div><h2 id="reason">마감된 캔들 수신 대기</h2><span id="decision-meta">규칙 적합도 기반 · 승률 미산정</span></div></div>
     <p id="risk-status" class="muted"></p>
     <section id="scenario-section" hidden><div class="section-head"><h2>진입 후보 비교</h2><span class="muted">순위 점수 · 승률 아님</span></div><div class="table-scroll"><table><thead><tr><th>시간봉</th><th>파동</th><th>진입</th><th>순위 점수</th><th>비용 후 손익비</th><th>위험 배수</th><th>판정 / 탈락 근거</th><th></th></tr></thead><tbody id="scenarios"></tbody></table></div></section>
     <div class="analysis-layout"><section class="chart-section">
@@ -18,7 +18,7 @@
       <div id="chart-warning" class="chart-warning" role="status" hidden></div>
       <div class="ohlc" id="chart-ohlc">OHLC 수신 대기</div>
       <div class="chart"><canvas id="chart" role="img" tabindex="0" aria-label="BTC 캔들과 엘리엇 파동 후보, 미확정 진행 구간"></canvas></div>
-      <div class="chart-navigation"><span id="chart-start">—</span><input id="chart-window" type="range" min="0" max="0" value="0" aria-label="차트 이력 위치"><span id="chart-end">—</span></div>
+      <div class="chart-navigation"><span id="chart-start">—</span><input id="chart-window" type="range" min="0" max="0" value="0" aria-label="Chart history position"><span id="chart-end">—</span></div>
       <div class="chart-caption"><span id="chart-caption">확정 피벗 대기</span><span id="bar-count">—</span></div>
       <div class="chart-legend"><span class="legend-confirmed">확정 피벗 연결</span><span class="legend-pending">미확정 가격 경로</span><span class="legend-open">진행 중 봉</span><span id="chart-role"></span></div>
       <div class="timeframes" id="timeframes"></div>

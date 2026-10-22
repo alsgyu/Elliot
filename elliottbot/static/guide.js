@@ -99,16 +99,16 @@ function renderChartGuide() {
   const scenario = d?.scenarios?.find(r => r.id===c?.id && r.timeframe===activeTf && r.pattern===c?.pattern);
   const trigger = selected ? d.trigger : scenario?.trigger;
   let role;
-  if (activeTf === "15m") role = active ? "15분봉은 30분봉의 내부 구조·새 종가 돌파 확인용이며 독립 진입하지 않습니다." : "15분봉은 참고 전용이며 현재 전략의 주문 판단에는 쓰지 않습니다.";
-  else if (activeTf === "30m") role = active ? "단기 적극형에서 30분봉은 진입 후보입니다. 15분봉 구조·새 종가 돌파, 비용·손절 거리·위험 한도를 통과해야 합니다." : scenarioMode ? "30분봉은 1시간봉의 구조·돌파 확인용이며 독립 진입하지 않습니다." : "30분봉은 참고 전용이며 현재 전략의 주문 판단에는 쓰지 않습니다.";
-  else if (["1w","1d"].includes(activeTf)) role = "이 시간봉은 상위 파동의 맥락 확인용이며 단독 주문 신호가 아닙니다.";
-  else if (activeTf === "1h" && !scenarioMode) role = "현재 엄격 전략에서 1시간봉은 4시간봉의 진입을 확인하는 용도입니다.";
-  else role = "구조, 상위 방향, 하위 종가 돌파, 비용과 위험 한도를 모두 통과해야 진입을 검토합니다.";
-  if(settings.research_mode)role="모의 연구: 최소 1개 내부 분할과 가격 규칙, 신규 돌파 또는 조정 끝 확인 종가, 비용·위험 한도를 검사합니다. 실거래로 전송하지 않습니다.";
-  const qualification = !c ? "파동 후보 없음." : settings.research_mode && selected ? "모의 연구 후보입니다. 잠정 카운트는 완전한 5-3 구조 확인과 다릅니다." : !c.eligible ? "이 후보는 단독 자동 진입 대상이 아닙니다." : "구조 자격 충족은 주문 허가와 다릅니다.";
-  const signal = selected && ["LONG","SHORT"].includes(d?.action) ? "표시 후보가 최종 신호에 선택됐지만 체결 완료를 뜻하지 않습니다." : "표시 후보의 최종 진입 신호는 아직 없습니다.";
-  const operation = latest?.error || latest?.entry_gate || (latest?.account?.running ? "자동매매 가동 중" : "신규 진입 중단 상태");
-  $("guide-state").textContent = `${stale ? "자료 지연 또는 분석 시점 불일치 가능: 아래 가격은 과거 참고값입니다. " : ""}${qualification} ${role} ${signal} 전체 결정: ${d?.action || "WAIT"} · ${d?.reason || "분석 대기"}. 실행 상태: ${operation}.`;
+  if (activeTf === "15m") role = active ? "15m confirms 30m internal structure and a fresh closing breakout; it never enters independently." : "15m is reference-only and does not affect order decisions in this strategy.";
+  else if (activeTf === "30m") role = active ? "In the short-term profile, 30m is an entry candidate. The 15m structure, a fresh close breakout, costs, stop distance, and risk limits must also pass." : scenarioMode ? "30m confirms 1H structure and breakouts; it never enters independently." : "30m is reference-only and does not affect order decisions in this strategy.";
+  else if (["1w","1d"].includes(activeTf)) role = "This timeframe provides higher-degree context; it is not a standalone order signal.";
+  else if (activeTf === "1h" && !scenarioMode) role = "In the strict profile, 1H confirms a 4H entry.";
+  else role = "Structure, higher-timeframe direction, a lower-timeframe close breakout, costs, and risk limits must all pass before an entry is considered.";
+  if(settings.research_mode)role="Paper research checks at least one internal subdivision, price rules, a fresh breakout or confirmed correction endpoint, and cost and risk limits. It never sends live orders.";
+  const qualification = !c ? "No wave candidate is available." : settings.research_mode && selected ? "This paper-research candidate does not confirm a complete 5-3 structure." : !c.eligible ? "This candidate is not eligible for automated entry on its own." : "Meeting the structure requirements does not authorize an order.";
+  const signal = selected && ["LONG","SHORT"].includes(d?.action) ? "The displayed candidate is selected as the final signal, but this does not mean an order has filled." : "The displayed candidate has no final entry signal yet.";
+  const operation = latest?.error || latest?.entry_gate || (latest?.account?.running ? "Automated trading active" : "New entries paused");
+  $("guide-state").textContent = `${stale ? "Data may be delayed or out of sync; prices below may be historical references. " : ""}${qualification} ${role} ${signal} Overall decision: ${d?.action || "WAIT"} · ${t(d?.reason || "분석 대기")}. Execution status: ${t(operation)}.`;
   const explanation = c ? guideExplanation(c) : null;
   $("guide-summary").textContent = c ? `${names[c.pattern] || c.pattern} · 관측 ${c.observed_direction_name || "미확정"} / 이후 예상 ${c.direction_name}. ${explanation.hypothesis}` : "카운트는 고점·저점에 파동 번호를 붙인 하나의 해석입니다. 현재는 설명할 후보가 없어 진입 가격, 무효화·손절·목표를 산정하지 않습니다. 회색 스윙만으로 거래 방향을 정할 수 없습니다.";
   guideRows("guide-levels", c ? [
@@ -123,12 +123,12 @@ function renderChartGuide() {
   if (math) {
     const bound = priceText(math.boundary), stop = priceText(math.stop);
     guideRows("guide-bounds", math.exists ? long ? [
-      [`손절 거리만 본 하한 · ${stop} 초과`,"롱의 진입가는 손절보다 높아야 합니다. 이 바로 위가 안전한 매수 가격이라는 뜻은 아닙니다. 너무 가까우면 거래 비용 비중이 커집니다."],
-      [`손익비만 본 상한 · ${bound} 이하`,`가정 비용을 반영해 이보다 높게 진입하면 목표가 그대로일 때 최소 ${fmt(math.rr,2)} R을 만족하지 못합니다. 목표까지 아직 여유가 있어도 추격 가격일 수 있습니다.`]
+      [`Lower bound from stop distance only · above ${stop}`,"For a long, entry must be above the stop. A price just above it is not necessarily a safe buy; entering too close makes trading costs large relative to risk."],
+      [`Upper bound from reward/risk only · ${bound} or below`,`After assumed costs, an entry above this level falls short of the ${fmt(math.rr,2)} R minimum if the target is unchanged. It may still be a chase even when the target has room.`]
     ] : [
-      [`손익비만 본 하한 · ${bound} 이상`,`숏은 더 낮게 추격할수록 목표까지 남은 이익이 줄어듭니다. 이보다 낮은 진입가는 가정 비용 후 최소 ${fmt(math.rr,2)} R 미달입니다.`],
-      [`손절 거리만 본 상한 · ${stop} 미만`,"숏의 진입가는 손절보다 낮아야 합니다. 이 바로 아래가 안전한 매도 가격이라는 뜻은 아니며, 너무 가까우면 비용 비중이 커집니다."]
-    ] : [["손익비 참고 구간 없음","이 손절·목표와 비용 가정으로 최소 손익비를 만족하는 진입 가격이 없습니다."]]);
+      [`Lower bound from reward/risk only · ${bound} or above`,`For a short, chasing lower leaves less potential profit before the target. An entry below this level falls short of the ${fmt(math.rr,2)} R minimum after assumed costs.`],
+      [`Upper bound from stop distance only · below ${stop}`,"For a short, entry must be below the stop. A price just below it is not necessarily a safe short; entering too close makes costs a larger share of risk."]
+    ] : [["No entry range meets the minimum reward/risk","With these stop, target, and cost assumptions, no entry price meets the minimum reward/risk."]]);
     $("guide-costs").textContent = `${fmt(math.rr,2)} R은 손절 시 예상 손실 1에 대해 목표 시 예상 순이익이 ${fmt(math.rr,2)}라는 비율이지 승률이 아닙니다. 설정된 편도 수수료 ${fmt(settings.fee_bps,1)} bps와 슬리피지 ${fmt(settings.slippage_bps,1)} bps를 진입·청산에 반영한 예시입니다. 1 bps = 0.01%. ${math.tick ? `손절 ${priceText(math.stop)}, 목표 ${priceText(math.target)}는 호가 단위로 보정했고 진입 경계도 안쪽으로 맞췄습니다.` : "호가 단위 미수신: 경계는 소수 둘째 자리 안쪽으로 표시합니다."} 실제 계정 수수료가 더 높으면 실행 범위는 좁아질 수 있습니다. 펀딩비와 급변 비용은 이 계산에 포함하지 않습니다.`;
   } else {
     guideRows("guide-bounds", [["진입 가격 미산정","방향·손절·목표 또는 비용 설정이 부족하거나 유효하지 않습니다. 임의의 매수·매도 범위를 만들지 않습니다."]]);
@@ -138,25 +138,26 @@ function renderChartGuide() {
     const tf = trigger.timeframe || "1h";
     const expires = scenarioMode && trigger.bar_end ? trigger.bar_end + ({"15m":900000,"30m":1800000,"1h":3600000}[tf] || 0) : null;
     const expired = expires && (latest.sample ? Number(latest.quote?.time) : Date.now()) >= expires;
-    $("guide-trigger").textContent = `${tfNames[tf] || tf} 종가 돌파 기준 ${fmt(trigger.price)}: 마감 종가가 이 가격 ${long ? "위" : "아래"}여야 합니다. 이 선은 지정가 주문 가격이나 호가의 직접 ${long ? "하한" : "상한"}이 아닙니다. 실제 진입 기준은 조건 통과 당시 ${long ? "매도호가(ask)" : "매수호가(bid)"}이고 시장가 체결가는 달라질 수 있습니다.${scenarioMode ? ` 다중·단기 전략은 새 돌파, 신호 만료, 신호 종가 대비 ${fmt(settings.max_entry_drift_r,2)} R 추격 거리도 따로 검사합니다.` : ""}${expires ? ` 신호 만료 ${chartStamp(expires)} KST${expired ? " · 이미 만료되어 새 신호가 필요합니다." : " · 이 시각 전이라도 다른 조건을 모두 통과해야 합니다."}` : ""}`;
-  } else $("guide-trigger").textContent = "현재 표시 후보와 연결된 종가 돌파 기준이 아직 없습니다. 따라서 실제 진입의 돌파 하한·상한은 미확정입니다. 위의 가격 계산만으로 지금 매수·매도할 수 있다고 해석하지 마세요.";
+    const timeframe = {"15m":"15m","30m":"30m","1h":"1H","4h":"4H","1d":"1D","1w":"1W"}[tf] || tf;
+    $("guide-trigger").textContent = `${timeframe} closing breakout threshold ${fmt(trigger.price)}: the candle must close ${long ? "above" : "below"} this level. This is not a limit-order price or a direct ${long ? "lower" : "upper"} bound. The entry reference is the ${long ? "ask" : "bid"} at confirmation; market fills may differ.${scenarioMode ? ` Multi-timeframe profiles also check for a fresh breakout, signal expiry, and entry drift within ${fmt(settings.max_entry_drift_r,2)} R of the signal close.` : ""}${expires ? ` Signal expires ${chartStamp(expires)} KST${expired ? " · expired; a fresh signal is required." : " · all other conditions must pass before expiry."}` : ""}`;
+  } else $("guide-trigger").textContent = "No closing-breakout level is linked to the displayed candidate, so breakout entry bounds are unconfirmed. Do not treat the price calculations above as permission to trade now.";
   $("guide-range-caution").textContent = `위 범위는 '손절 거리 + 손익비'만의 진입 전 참고 구간이며 주문 가능 구간이 아닙니다. ${filledMode?"이미 체결 모드의 수동 포지션 계산과 달리, 위 상한·하한은 진입 슬리피지도 포함한 가정입니다. ":""}${scenarioMode ? `비용 비중 한도 ${fmt(Number(settings.max_cost_fraction)*100,0)}%, 신호 만료와 추격 제한도 별도입니다. ` : ""}${active?`단기 전략의 구조 손절 거리 상한은 ${fmt(settings.max_stop_percent)}%이며 초과 시 진입을 제외합니다. `:""}방향 허용, 내부 파동, 시간봉 충돌, 계정 권한, 스프레드, 수량·위험 한도를 통과해야 하며, 레버리지를 높여도 이 파동의 손절·목표가 유리하게 바뀌지는 않습니다.`;
   renderGuideCalculation(math,stale);
   renderManualReview(c,data,stale);
   const steps = c && math ? [
-    `먼저 지금 보는 ${tfNames[activeTf]}의 표시 후보가 무엇인지 확인합니다. 관측 ${c.observed_direction_name || "미확정"}은 이미 그려진 파동의 방향이고 예상 ${c.direction_name}은 그 뒤의 가정입니다. 다른 후보의 손절·목표와 섞지 않습니다.`,
-    `${long ? "가격이 내려와" : "가격이 올라가"} 후보 손절 ${fmt(c.stop)}에 닿으면 이 끝점에서 시작한다는 매매 가정을 재검토합니다. ${c.stop===c.invalidation ? "이 후보는 무효화 기준도 같은 가격입니다." : `별도의 무효화 ${fmt(c.invalidation)}는 위에서 설명한 더 큰 카운트의 경계입니다. 손절을 그쪽으로 임의로 넓히라는 뜻이 아닙니다.`} 파동 엔진은 마감봉의 고가·저가 침범도 보므로 종가만 회복했다고 기존 후보가 유지되는 것은 아닙니다.`,
-    `손절과 목표 사이에 있다는 사실만으로 진입 조건이 충족되지는 않습니다. ${long ? "상한보다 비싸게 사면" : "하한보다 낮게 숏을 잡으면"} 손익비가 부족할 수 있고, 손절에 너무 가까우면 비용 비중이 커집니다. 하위 봉의 구조와 종가 돌파가 먼저 필요합니다.`,
-    `목표 ${fmt(c.target)}에 도달해도 여기서 반드시 반전하거나 다음 반대 포지션을 잡아야 한다는 뜻은 아닙니다. 후보 목표는 예상 지점이고 실제 익절은 보유 포지션의 주문·체결 기록으로 확인해야 합니다.`
-  ] : ["현재는 유효한 가격 기준이 없어 기다리는 상태입니다. 번호 없는 스윙이나 대안 이름만으로 진입가를 만들지 않습니다.","파란 피벗 연결은 관측된 움직임, 금색 점선은 이후의 미확정 가격 경로입니다. 어느 선도 수익이나 미래 방향을 보장하지 않습니다."];
+    `Identify the candidate shown on the ${{"15m":"15m","30m":"30m","1h":"1H","4h":"4H","1d":"1D","1w":"1W"}[activeTf]} chart. The observed ${c.observed_direction_name === "상승" ? "bullish" : c.observed_direction_name === "하락" ? "bearish" : "unconfirmed"} move describes the wave already drawn; projected ${c.direction > 0 ? "LONG" : "SHORT"} is a hypothesis about what may follow. Do not mix levels from different candidates.`,
+    `${long ? "If price falls to" : "If price rises to"} the candidate stop at ${fmt(c.stop)}, reassess the trade hypothesis anchored at this endpoint. ${c.stop===c.invalidation ? "The count invalidation is at the same price." : `The separate count invalidation at ${fmt(c.invalidation)} marks a broader boundary; it is not an instruction to widen the stop.`} The wave engine checks highs and lows of closed candles, so a closing-price recovery alone does not preserve the candidate.`,
+    `Being between the stop and target does not satisfy entry conditions. ${long ? "Buying above the upper bound may leave insufficient reward/risk" : "Shorting below the lower bound may leave insufficient reward/risk"}, and entering too close to the stop increases costs relative to risk. Lower-timeframe structure and a closing breakout are required first.`,
+    `Reaching the target at ${fmt(c.target)} does not require a reversal or an immediate position in the opposite direction. The candidate target is a projection; verify any take-profit through the open position's orders and fills.`
+  ] : ["There is no valid price reference yet. Do not derive an entry from unlabeled swings or an alternative count name alone.","The blue line connects observed pivots; the dashed gold line shows an unconfirmed path after the latest pivot. Neither line guarantees profit or future direction."];
   $("guide-steps").replaceChildren(...steps.map(text=>{const li=document.createElement("li");li.textContent=text;return li;}));
 }
 
 function renderGuideCalculation(math,stale) {
   const box=$("guide-calculation"), input=$("guide-entry");
   const direction=manualDirection(), filled=document.querySelector('[name="manual-entry-kind"]:checked').value==="filled";
-  input.placeholder=filled?"평균 체결가 입력":"가정 진입가 입력";
-  if (!math) {input.placeholder="계산할 후보 없음";box.textContent="진입가 예시 계산 대기";return;}
+  input.placeholder=filled?"Enter average fill price":"Enter planned entry price";
+  if (!math) {input.placeholder="No candidate to calculate";box.textContent="Waiting to calculate entry-price examples";return;}
   if (direction===null) {box.textContent="내 포지션 방향을 먼저 선택해야 합니다. 체결가만으로 롱·숏을 판단하지 않습니다.";return;}
   if (direction!==math.direction) {
     box.textContent="수동 방향이 표시 후보의 예상 방향과 다릅니다. 이 후보의 손절·목표를 반대로 뒤집어 계산하지 않습니다.";return;

@@ -269,6 +269,10 @@
 
   const exact = new Map(pairs);
   const patterns = [
+    [/^structure requirements met은 order authorization와 다릅니다\. 구조, higher-timeframe direction, lower-timeframe closing breakout, cost and risk limits를 must all pass before we can consider an entry\. the displayed candidate's final entry signal는 is not available yet\. Overall decision: (.+?) · (.+?)\. Execution status: (.+)\.$/, (action, reason, status) => `Meeting the structure requirements is not order approval. Structure, higher-timeframe direction, lower-timeframe closing breakout, costs, and risk limits must all pass before an entry is considered. The displayed candidate has no final entry signal yet. Overall decision: ${action} · ${reason}. Execution status: ${status}.`],
+    [/^가정 비용을 반영해 이보다 높게 진입하면 목표가 그대로일 때 최소 ([\d,.]+) R을 만족하지 못합니다\. 목표까지 not yet 여유가 있어도 추격 price일 수 있습니다\.$/, rr => `After assumed costs, an entry above this level would fall below the ${rr} R minimum if the target is unchanged. It may still be a chase even when the target has room.`],
+    [/^(.+) closing breakout threshold ([\d,.]+): 마감 종가가 이 price (위|아래)여야 합니다\. 이 선은 지정가 주문 price이나 호가의 직접 (하한|상한)이 아닙니다\. actual entry reference은 조건 pass 당시 (ask\(ask\)|bid\(bid\))이고 market fill price는 달라질 수 있습니다\.$/, (tf, price, side, bound, quote) => `${tf} closing breakout threshold ${price}: The candle must close ${side === "위" ? "above" : "below"} this level. This is not a limit-order price or a direct ${bound === "하한" ? "lower" : "upper"} bound. The entry reference is the ${quote.startsWith("ask") ? "ask" : "bid"} at confirmation; market fills may differ.`],
+    [/^price이 내려와 candidate stop ([\d,.]+)에 닿으면 이 endpoint에서 시작한다는 trade hypothesis을 재검토합니다\. 별도의 무효화 ([\d,.]+)는 위에서 설명한 더 큰 카운트의 경계입니다\. 손절을 그쪽으로 임의로 넓히라는 뜻이 아닙니다\. 파동 엔진은 closed bar의 고가·저가 침범도 보므로 종가만 회복했다고 기존 candidate가 유지되는 것은 아닙니다\.$/, (stop, invalidation) => `If price falls to the candidate stop at ${stop}, reassess the trade hypothesis anchored at this endpoint. The separate invalidation at ${invalidation} marks the broader count boundary described above; it is not an instruction to widen the stop. The wave engine also checks highs and lows of closed bars, so a later closing-price recovery does not preserve the candidate.`],
     [/^(.+) · 관측 (상승|하락|미확정) \/ 이후 예상 (LONG|SHORT|NEUTRAL)\. (.+)$/, (name, observed, projected, hypothesis) => `${exact.get(name) || name} · Observed ${({상승:"bullish",하락:"bearish",미확정:"unconfirmed"})[observed]} / projected ${projected}. ${translate(hypothesis)}`],
     [/^(.+?) 전체 결정: (.+?) · (.+?)\. 실행 상태: (.+)\.$/, (lead, action, reason, status) => `${translate(lead)} Overall decision: ${action} · ${translate(reason)}. Execution status: ${translate(status)}.`],
     [/^([\d,.]+) 이상는 C 끝점입니다\. 그 고점을 다시 시험하면 'C가 여기서 끝났다'는 가정을 철회합니다\. ABC 전체가 불가능하다는 뜻은 아니며 C 연장이나 다른 카운트가 가능합니다\.$/, price => `The Wave C endpoint is ${price}. A retest of this high invalidates the assumption that Wave C ended here, but not the entire ABC pattern; Wave C may extend or another count may apply.`],
@@ -444,12 +448,19 @@
     ["먼 목표를 자동 선택해 손익비를 맞추지 않습니다", "a distant target is not auto-selected to meet the reward/risk threshold"],
     ["주문·설정·보유 포지션을 변경하지 않습니다", "does not change orders, settings, or open positions"],
     [" bars", " bars"], ["bars", "bars"],
+    ["long의 entry price는 손절보다 높아야 합니다. 이 바로 위가 안전한 매수 price이라는 뜻은 아닙니다. 너무 가까우면 거래 cost share이 커집니다.", "For a long, entry must be above the stop. A price just above it is not necessarily a safe buy; entering too close makes trading costs large relative to risk."],
+    ["구조 자격 충족", "structure requirements met"], ["실제 진입은 전체 조건 별도 검사", "actual entry requires separate checks of all conditions"],
+    ["자동매매는 절단되지 않은 Wave 5만 채택", "automated trading accepts only non-truncated Wave 5s"],
+    ["차트 이력 위치", "Chart history position"], ["planned entry price 입력", "Enter planned entry price"],
+    ["이 candidate를 차트에 표시", "Show this candidate on the chart"], ["1~10배 · 서버 지원 범위", "1–10x · server-supported range"],
+    ["자동 · 우선 카운트", "Auto · primary count"],
+    ["1. 추진 3파 진입 후보 · LONG · 1.20%", "1. Impulse Wave 3 entry candidate · LONG · 1.20%"],
+    ["2. 플랫·복합 조정 대안 · NEUTRAL · 2.00%", "2. Flat or complex correction alternative · NEUTRAL · 2.00%"],
+    ["3. 플랫·복합 조정 대안 · NEUTRAL · 1.20%", "3. Flat or complex correction alternative · NEUTRAL · 1.20%"],
   ];
   phrases.sort((a, b) => b[0].length - a[0].length);
 
-  let locale = "en";
-  try { locale = localStorage.getItem("elliott.locale") || "en"; } catch {}
-  if (!new Set(["en", "ko"]).has(locale)) locale = "en";
+  const locale = "en";
   const sourceText = new WeakMap(), renderedText = new WeakMap();
   const sourceAttr = new WeakMap(), renderedAttr = new WeakMap();
   const trimParts = value => {
@@ -487,7 +498,7 @@
     if (output !== current) { rendered.set(name, output); element.setAttribute(name, output); }
     else rendered.set(name, current);
   }
-  const attrs = ["title", "aria-label", "aria-description", "placeholder", "alt"];
+  const attrs = ["title", "aria-label", "aria-description", "placeholder", "alt", "data-options"];
   function scan(root) {
     if (root.nodeType === Node.TEXT_NODE) { processText(root); return; }
     if (root.nodeType !== Node.ELEMENT_NODE && root !== document) return;
@@ -498,22 +509,17 @@
       root.querySelectorAll(attrs.map(a => `[${a}]`).join(",")).forEach(el => attrs.forEach(a => processAttribute(el, a)));
     }
   }
-  function setLocale(next) {
-    locale = next === "ko" ? "ko" : "en";
-    document.documentElement.lang = locale;
-    try { localStorage.setItem("elliott.locale", locale); } catch {}
+  function setLocale() {
+    document.documentElement.lang = "en";
     scan(document.body);
-    document.getElementById("locale")?.setAttribute("value", locale);
-    document.dispatchEvent(new CustomEvent("localechange", { detail: { locale } }));
+    document.dispatchEvent(new CustomEvent("localechange", { detail: { locale: "en" } }));
   }
   window.elliottLocale = () => locale;
-  window.elliottLocaleTag = () => locale === "ko" ? "ko-KR" : "en-US";
+  window.elliottLocaleTag = () => "en-US";
   window.t = translate;
   window.setElliottLocale = setLocale;
   document.documentElement.lang = locale;
   document.addEventListener("DOMContentLoaded", () => {
-    const picker = document.getElementById("locale");
-    if (picker) { picker.value = locale; picker.addEventListener("change", () => setLocale(picker.value)); }
     scan(document.body);
     const observer = new MutationObserver(records => {
       for (const record of records) {

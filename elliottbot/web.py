@@ -6,7 +6,6 @@ import mimetypes
 from pathlib import Path
 import secrets
 import signal
-import sys
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlsplit
@@ -22,9 +21,6 @@ def handler(service):
     token = secrets.token_urlsafe(32)
     static = Path(__file__).with_name("static").resolve()
     vendor = Path(__file__).parent.parent / "kgridbot" / "static" / "vendor"
-    rules = Path(__file__).parent.parent / "docs" / "ELLIOTT_RULES.md"
-    if not rules.is_file():
-        rules = Path(sys.prefix) / "share" / "elliott-btc" / "ELLIOTT_RULES.md"
     job = {"running": False, "report": None, "error": None}
     job_lock = threading.Lock()
 
@@ -59,8 +55,6 @@ def handler(service):
                 elif path == "/api/backtest":
                     with job_lock:
                         self.send(job)
-                elif path == "/rules.md":
-                    self.send(rules.read_bytes(), content="text/markdown; charset=utf-8", filename="ELLIOTT_RULES.md")
                 elif path.startswith("/journal/") and path[9:].isdigit():
                     with service.lock:
                         file = service.journal.export_event(int(path[9:]))

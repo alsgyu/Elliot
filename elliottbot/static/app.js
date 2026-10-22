@@ -2,9 +2,9 @@
 const $ = id => document.getElementById(id);
 const fmt = (v, n = 2) => v == null || !Number.isFinite(Number(v)) ? "—" : Number(v).toLocaleString(window.elliottLocaleTag(), { minimumFractionDigits: n, maximumFractionDigits: n });
 const stamp = ms => ms ? new Date(ms).toLocaleString(window.elliottLocaleTag(), { timeZone: "Asia/Seoul", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }) : "—";
-const names = { WAVE_3: "추진 3파 진입 후보", WAVE_5: "추진 5파 진입 후보", WAVE_C: "지그재그 C파 진입 후보", IMPULSE_COMPLETE: "추진 5개 파동 완료", ZIGZAG_COMPLETE: "지그재그 ABC 완료", DIAGONAL_WATCH: "대각선 대안", TRIANGLE_WATCH: "삼각형 대안", FLAT_OR_COMPLEX_WATCH: "플랫·복합 조정 대안" };
-const tfNames = { "1w": "주봉", "1d": "일봉", "4h": "4시간봉", "1h": "1시간봉", "30m": "30분봉", "15m": "15분봉" };
-const states = { SELECTED: "우선 카운트", CONFLICT: "대안 충돌", NO_COUNT: "확정 카운트 없음", COMPLEX_CORRECTION: "복합 조정 관망" };
+const names = { WAVE_3: "Impulse Wave 3 entry candidate", WAVE_5: "Impulse Wave 5 entry candidate", WAVE_C: "Zigzag Wave C entry candidate", IMPULSE_COMPLETE: "Five-wave impulse complete", ZIGZAG_COMPLETE: "Zigzag ABC complete", DIAGONAL_WATCH: "Diagonal alternative", TRIANGLE_WATCH: "Triangle alternative", FLAT_OR_COMPLEX_WATCH: "Flat or complex correction alternative" };
+const tfNames = { "1w": "1W", "1d": "1D", "4h": "4H", "1h": "1H", "30m": "30m", "15m": "15m" };
+const states = { SELECTED: "Primary count", CONFLICT: "Conflicting alternatives", NO_COUNT: "No confirmed count", COMPLEX_CORRECTION: "Complex correction · wait" };
 let latest, activeTf = "4h", activeView = "analysis", dirty = false, modeDirty = false, busy = false, refreshing = false, report, polling = false;
 
 function notice(text, error = false) { $("notice").textContent = text; $("notice").classList.toggle("error", error); $("notice").hidden = false; }
@@ -82,10 +82,10 @@ function renderCandidates() {
     const reference=isReferenceChart() || !["WAVE_3","WAVE_5","WAVE_C"].includes(c.pattern);
     const researchSelected=latest.settings.research_mode && latest.decision?.selection?.id===c.id;
     textCell(tr, `${f.selected === c.id ? "우선" : "대안"} · ${reference ? "참고 전용" : researchSelected ? "모의 연구 진입" : c.eligible ? "추가 진입 검사 필요" : "구조 미확인"}`);
-    const actions=textCell(tr, ""), b=document.createElement("button"), i=document.createElement("i"); b.className="icon";b.title="이 후보를 차트에 표시";b.setAttribute("aria-label",`${names[c.pattern]} 차트 표시`);b.setAttribute("aria-pressed",String(shown?.id===c.id));i.dataset.lucide="eye";b.append(i);b.addEventListener("click",()=>{chartCount=c.id;renderCandidates();renderWaveEvidence();draw();lucide.createIcons();});actions.append(b,detailButton(c)); return tr;
+    const actions=textCell(tr, ""), b=document.createElement("button"), i=document.createElement("i"); b.className="icon";b.title="Show candidate on chart";b.setAttribute("aria-label",`Show ${names[c.pattern] || "wave candidate"} on chart`);b.setAttribute("aria-pressed",String(shown?.id===c.id));i.dataset.lucide="eye";b.append(i);b.addEventListener("click",()=>{chartCount=c.id;renderCandidates();renderWaveEvidence();draw();lucide.createIcons();});actions.append(b,detailButton(c)); return tr;
   }));
-  const failed = f?.rejected.flatMap(r => r.rules.filter(c => !c.passed).map(c => `${names[r.pattern]}: ${c.detail}`)) || [];
-  $("rejected").textContent = failed.length ? `탈락 근거 · ${[...new Set(failed)].join(" / ")}` : "";
+  const failed = f?.rejected.flatMap(r => r.rules.filter(c => !c.passed).map(c => `${names[r.pattern] || r.pattern}: ${t(c.detail)}`)) || [];
+  $("rejected").textContent = failed.length ? `Rejected hypotheses · ${[...new Set(failed)].join(" / ")}` : "";
 }
 function renderJournal() {
   const items = latest.events;
@@ -111,7 +111,7 @@ function renderSettingsSupport() {
   const leverage = $("settings-form").elements.leverage;
   leverage.min = latest.limits?.leverage_min ?? 1;
   leverage.max = latest.limits?.leverage_max ?? 5;
-  leverage.title = `${leverage.min}~${leverage.max}배 · 서버 지원 범위`;
+  leverage.title = `${leverage.min}–${leverage.max}× · Server-supported range`;
   for (const input of $("settings-form").querySelectorAll("input[name],select[name]")) {
     const supported = Object.hasOwn(latest.settings, input.name);
     input.disabled = !supported;

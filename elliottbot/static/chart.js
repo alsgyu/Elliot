@@ -2,6 +2,7 @@
 let chartData = null, chartRequest = 0, chartFetched = 0, chartLoading = "", chartAttempt = "";
 let chartCount = "auto", chartWindow = 360, chartAnchor = null, chartHover = null;
 const chartStamp = ms => ms ? new Date(ms).toLocaleString(window.elliottLocaleTag(), {timeZone:"Asia/Seoul", year:"numeric", month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit", hour12:false}) : "—";
+const chartNames = {WAVE_3:"Impulse Wave 3 entry candidate",WAVE_5:"Impulse Wave 5 entry candidate",WAVE_C:"Zigzag Wave C entry candidate",IMPULSE_COMPLETE:"Five-wave impulse complete",ZIGZAG_COMPLETE:"Zigzag ABC complete",DIAGONAL_WATCH:"Diagonal alternative",TRIANGLE_WATCH:"Triangle alternative",FLAT_OR_COMPLEX_WATCH:"Flat or complex correction alternative"};
 const waveLabels = c => c?.pattern === "TRIANGLE_WATCH" ? ["0","A","B","C","D","E"] : ["ZIGZAG_COMPLETE","WAVE_C"].includes(c?.pattern) ? ["0","A","B","C"] : c?.pattern === "FLAT_OR_COMPLEX_WATCH" ? ["P0","P1","P2","P3"] : ["0","1","2","3","4","5"];
 const isReferenceChart = () => activeTf === "15m" || (activeTf === "30m" && latest?.settings.strategy_mode !== "active");
 
@@ -61,7 +62,7 @@ function renderWaveEvidence() {
   metric("차트 최근 마감", chartStamp(data.candles.at(-1)?.end));
   metric("진행 중 봉", data.forming ? `${chartStamp(data.forming.time)} · 미확정` : "없음 / 미수신");
   if (!c) {
-    $("wave-context").textContent = "채택할 수 있는 파동 후보 없음 · 회색 스윙은 엘리엇 확정 카운트가 아닙니다.";
+    $("wave-context").textContent = "No eligible wave candidate. Gray swings are not confirmed Elliott counts.";
     empty("wave-pivots", "확정 피벗 후보 없음", 4); return;
   }
   const points=c.pivots, last=points.at(-1), labels=waveLabels(c), proven=c.subdivisions.filter(s=>s.confirmed).length;
@@ -79,11 +80,12 @@ function renderWaveEvidence() {
     if(points.length>=5){metric("3파 / 1파 길이",`${fmt(length(3)/length(1),3)}×`);metric("4파 / 3파 되돌림",`${fmt(length(4)/length(3)*100,1)}%`);}
   } else if(c.pattern==="ZIGZAG_COMPLETE") metric("C파 / A파 길이",`${fmt(length(3)/length(1),3)}×`);
   else if(c.pattern==="WAVE_C") metric("B파 / A파 되돌림",`${fmt(length(2)/length(1)*100,1)}%`);
-  const status = frame?.selected === c.id ? "우선 후보" : "대안 후보 · 최종 선택 아님";
+  const status = frame?.selected === c.id ? "Primary count" : "Alternative · not the final selection";
   const researchSelected=latest.settings.research_mode && latest.decision?.selection?.id===c.id;
-  const eligibility = isReferenceChart() ? "독립 진입 후보 아님" : researchSelected ? "모의 연구 신호 · 내부 구조 확인 여부는 별도 표시" : c.eligible ? "구조 자격 충족 · 실제 진입은 전체 조건 별도 검사" : "자동 진입 구조 자격 미충족";
+  const eligibility = isReferenceChart() ? "Reference-only; not an independent entry candidate" : researchSelected ? "Paper research signal; internal structure status shown separately" : c.eligible ? "Structure requirements met; all entry conditions are checked separately" : "Does not meet automated-entry structure requirements";
   const elapsed = Math.max(0, Math.floor(((data.candles.at(-1)?.end || last.confirmed_at)-last.confirmed_at)/data.interval));
-  $("wave-context").textContent = `${names[c.pattern]} · ${status} · 적합도 ${fmt(c.score,1)}/100 (승률 아님) · ${eligibility}. 마지막 피벗 확인 후 ${elapsed}봉. 가격 기준은 표시 후보의 값이며 실제 주문이 아닙니다.`;
+  const observed = c.observed_direction_name === "상승" ? "bullish" : c.observed_direction_name === "하락" ? "bearish" : "unconfirmed";
+  $("wave-context").textContent = `${chartNames[c.pattern] || c.pattern} · ${status} · Observed ${observed} · Fit score ${fmt(c.score,1)}/100 (not a win rate) · ${eligibility}. ${elapsed} bars since the latest pivot was confirmed. Price levels belong to this candidate; they are not orders.`;
   $("wave-rules").replaceChildren(...c.rules.map(r=>{const li=document.createElement("li");li.className=r.passed?"positive":"negative";li.textContent=`${r.passed?"통과":"미확인"} · ${r.id} · ${r.detail}`;return li;}));
   $("wave-subdivisions").replaceChildren(...c.subdivisions.map((s,i)=>{const el=document.createElement("p");el.className="subdivision";el.textContent=`${labels[i]}→${labels[i+1]} · 기대 ${s.expected}개 / 관측 ${s.observed_legs}개 · ${s.coverage_missing?"하위 이력 부족":s.confirmed?"구조 확인":"구조 미확인"}`;return el;}));
   $("wave-pivots").replaceChildren(...points.map((p,i)=>{const tr=document.createElement("tr");textCell(tr,labels[i]);textCell(tr,fmt(p.price));textCell(tr,chartStamp(p.time));textCell(tr,chartStamp(p.confirmed_at));return tr;}));
