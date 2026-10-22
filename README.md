@@ -4,7 +4,7 @@
 
 **Rule-based Elliott Wave analysis and automated BTCUSDT futures trading.**
 
-[Star this repo](https://github.com/alsgyu/ElliotWaves) · [Run locally](#run-locally)
+[Star this repo](https://github.com/alsgyu/elliott-wave-auto-trading) · [Run locally](#run-locally)
 
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Binance USDⓈ-M](https://img.shields.io/badge/Market-Binance%20USD%E2%93%88--M-F0B90B?logo=binance&logoColor=111)](https://www.binance.com/)
@@ -12,11 +12,18 @@
 
 </div>
 
-<p align="center"><img src="docs/images/elliott-timeframes.png" alt="Illustrative Elliott Wave impulse and ABC structures across 1W, 1D, 4H, 1H, 30m, and 15m timeframes" width="100%" /></p>
-<p align="center"><b>Multi-timeframe map</b><br />Nested 1–5 impulse and A–B–C correction examples from weekly context to 15-minute structure.</p>
+## Real BTC chart examples
 
-<p align="center"><img src="docs/images/elliott-complete-cycle.png" alt="Illustrative BTC-style candlestick chart labeling a complete Elliott Wave 1–5 impulse followed by an ABC correction" width="100%" /></p>
-<p align="center"><b>Complete Elliott cycle</b><br />A five-wave motive sequence followed by a three-wave correction. Both images use synthetic candles for illustration, not live BTC data or verified forecasts.</p>
+These are real BTC market charts published by third parties on TradingView, not mockups or output from this app. Each image links to its source and retains TradingView attribution. Each count is the author's dated interpretation, not independent proof of accuracy; this project does not claim a win rate.
+
+<p align="center"><a href="https://es.tradingview.com/chart/BTCUSD/mJZYXC4F/"><img src="https://s3.tradingview.com/m/mJZYXC4F_mid.webp" alt="WhiteBIT TradingView BTC/USD chart with Elliott impulse and corrective wave labels across 2025–2026 price action" width="100%" /></a></p>
+<p align="center"><b>Impulse and correction in BTC/USD</b><br />WhiteBIT on TradingView · Published Mar 12, 2026 · BTC price history spanning 2025–2026 · <a href="https://es.tradingview.com/chart/BTCUSD/mJZYXC4F/">Original chart and analysis</a></p>
+
+<p align="center"><a href="https://www.tradingview.com/chart/BTCUSD/mO5I6PzE-Bitcoin-Is-the-WXYXZ-Correction-Setting-Up-Wave-C/"><img src="https://s3.tradingview.com/m/mO5I6PzE_mid.webp" alt="TradingView BTC/USD chart showing a conditional WXYXZ correction count and possible upward C wave" width="100%" /></a></p>
+<p align="center"><b>Conditional bullish scenario</b><br />KlejdiCuni on TradingView · Published Feb 13, updated Feb 15, 2026 · Possible C-wave advance after a WXYXZ correction · <a href="https://www.tradingview.com/chart/BTCUSD/mO5I6PzE-Bitcoin-Is-the-WXYXZ-Correction-Setting-Up-Wave-C/">Original chart and analysis</a></p>
+
+<p align="center"><a href="https://www.tradingview.com/chart/BTCUSD/6u85i1Lm-No-Clear-Signal-That-Bitcoin-Has-Finished-Dropping/"><img src="https://s3.tradingview.com/6/6u85i1Lm_mid.png" alt="TradingView weekly BTC/USD chart showing a completed five-wave advance and a proposed A-B-C correction" width="100%" /></a></p>
+<p align="center"><b>Bearish weekly alternative</b><br />BrightRally Research on TradingView · Weekly BTC/USD · Published Mar 24, updated Apr 27, 2026 · An independent author's ABC correction scenario, not a verified system result · <a href="https://www.tradingview.com/chart/BTCUSD/6u85i1Lm-No-Clear-Signal-That-Bitcoin-Has-Finished-Dropping/">Original chart and analysis</a></p>
 
 ## Core features
 
@@ -30,8 +37,8 @@
 Requires Python 3.11+ and internet access for Binance public market data.
 
 ```bash
-git clone https://github.com/alsgyu/ElliotWaves.git
-cd ElliotWaves
+git clone https://github.com/alsgyu/elliott-wave-auto-trading.git
+cd elliott-wave-auto-trading
 ./start.sh
 ```
 
